@@ -17,7 +17,6 @@ class ProductsCategoriesSeeder extends Seeder
     public function run(): void
     {
         $products = Product::all();
-
         foreach ($products as $product) {
             $category = Category::inRandomOrder()->first();
 
