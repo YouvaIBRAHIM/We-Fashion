@@ -13,7 +13,15 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('categories')->insert(["name" => "Femme"]);
-        DB::table('categories')->insert(["name" => "Homme"]);
+        DB::table('categories')->insert([
+            "name" => "Femme",
+            "created_at" => now(),
+            "updated_at" => now()
+        ]);
+        DB::table('categories')->insert([
+            "name" => "Homme",
+            "created_at" => now(),
+            "updated_at" => now()
+        ]);
     }
 }

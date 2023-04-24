@@ -13,10 +13,19 @@ class ProductSizeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('product_sizes')->insert(["size" => "XS"]);
-        DB::table('product_sizes')->insert(["size" => "S"]);
-        DB::table('product_sizes')->insert(["size" => "M"]);
-        DB::table('product_sizes')->insert(["size" => "L"]);
-        DB::table('product_sizes')->insert(["size" => "XL"]);
+        $sizes = [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+        ];
+        foreach ($sizes as $size) {
+            DB::table('product_sizes')->insert([
+                "size" => $size,
+                "created_at" => now(),
+                "updated_at" => now()
+            ]);
+        }
     }
 }
