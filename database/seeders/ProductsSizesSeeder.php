@@ -15,14 +15,21 @@ class ProductsSizesSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 80; $i++) {
+        for ($i = 1; $i <= 250; $i++) {
             $product = Product::inRandomOrder()->first();
             $productSize = ProductSize::inRandomOrder()->first();
 
-            DB::table('products_product_sizes')->insert([
-                'product_id' => $product->id,
-                'product_size_id' => $productSize->id,
-            ]);
+            // on vérifie d'abord si le produit possède déjà la taille dans la table products_product_sizes
+            $isLineAlreadyExist = DB::table('products_product_sizes')
+                                        ->where("product_id", $product->id)
+                                        ->where('product_size_id', $productSize->id)
+                                        ->first();
+            if (!$isLineAlreadyExist) {
+                DB::table('products_product_sizes')->insert([
+                    'product_id' => $product->id,
+                    'product_size_id' => $productSize->id,
+                ]);
+            }
         }
     }
 }

@@ -15,14 +15,21 @@ class ProductsCategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 80; $i++) {
+        for ($i = 1; $i <= 120; $i++) {
             $product = Product::inRandomOrder()->first();
             $category = Category::inRandomOrder()->first();
+            // on vérifie d'abord si le produit possède déjà la catégorie dans la table products_catigories
+            $isLineAlreadyExist = DB::table('products_catigories')
+                                        ->where("product_id", $product->id)
+                                        ->where('category_id', $category->id)
+                                        ->first();
 
-            DB::table('products_catigories')->insert([
-                'product_id' => $product->id,
-                'category_id' => $category->id,
-            ]);
+            if (!$isLineAlreadyExist) {
+                DB::table('products_catigories')->insert([
+                    'product_id' => $product->id,
+                    'category_id' => $category->id,
+                ]);
+            }
         }
     }
 }
