@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsCategoriesSeeder extends Seeder
 {
@@ -15,21 +16,31 @@ class ProductsCategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 120; $i++) {
-            $product = Product::inRandomOrder()->first();
-            $category = Category::inRandomOrder()->first();
-            // on vérifie d'abord si le produit possède déjà la catégorie dans la table products_catigories
-            $isLineAlreadyExist = DB::table('products_catigories')
-                                        ->where("product_id", $product->id)
-                                        ->where('category_id', $category->id)
-                                        ->first();
+        $products = Product::all();
 
-            if (!$isLineAlreadyExist) {
-                DB::table('products_catigories')->insert([
-                    'product_id' => $product->id,
-                    'category_id' => $category->id,
-                ]);
+        foreach ($products as $product) {
+            $category = Category::inRandomOrder()->first();
+
+            DB::table('products_catigories')->insert([
+                'product_id' => $product->id,
+                'category_id' => $category->id,
+            ]);
+            
+            // affectation d'une image aléatoire pour le produit selon sa catégorie
+            if ($category->name == "Homme") {
+                $menFolder = '/public/products_images/hommes';
+                
+                $images = Storage::files($menFolder);
+            }else if($category->name == "Femme") {
+                $womenFolder = '/public/products_images/femmes';
+                $images = Storage::files($womenFolder);
             }
+
+            $image = $images[array_rand($images)];
+
+            $product->update([
+                "image" => $image
+            ]);
         }
     }
 }
