@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-r            $table->timestamps();
+            $table->string('name', 100)->nullable(false);
+            $table->text('description');
+            $table->decimal('price', 8, 2, true)->nullable(false);
+            $table->string('image')->nullable(true);
+            $table->boolean('is_visible')->default(true)->nullable(false);
+            $table->enum('state', ['en solde', 'standard'])->default('standard')->nullable(false);
+            $table->string('product_ref', 16)->nullable(false);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
