@@ -20,7 +20,7 @@ class ProductsCategoriesSeeder extends Seeder
         foreach ($products as $product) {
             $category = Category::inRandomOrder()->first();
 
-            DB::table('products_catigories')->insert([
+            DB::table('category_product')->insert([
                 'product_id' => $product->id,
                 'category_id' => $category->id,
             ]);
