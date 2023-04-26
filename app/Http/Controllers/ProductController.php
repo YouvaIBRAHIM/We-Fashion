@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Contracts\View\View;
+use App\Models\Size;
+
 use Illuminate\Http\Request;
-use Illuminate\View\View as ViewView;
 
 class ProductController extends Controller
 {
@@ -14,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productsList = Product::with('sizes')->with('categories')->paginate(15);
+        $productsList = Product::orderBy("created_at", "desc")->paginate(15);
 
         return view('products.index', ['productsList' => $productsList]);
     }
@@ -24,15 +26,17 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $sizes = Size::all();
+        return view('products.create', ["categories" => $categories, "sizes" => $sizes]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        
     }
 
     /**

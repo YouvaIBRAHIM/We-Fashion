@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable(true);
             $table->boolean('is_visible')->default(true)->nullable(false);
             $table->enum('state', ['en solde', 'standard'])->default('standard')->nullable(false);
-            $table->string('product_ref', 16)->nullable(false);
+            $table->string('product_ref', 16)->nullable(true);
             $table->timestamps();
             $table->softDeletes();
         });

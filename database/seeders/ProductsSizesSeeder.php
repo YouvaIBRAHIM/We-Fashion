@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use App\Models\ProductSize;
+use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,7 @@ class ProductsSizesSeeder extends Seeder
     {
         for ($i = 1; $i <= 250; $i++) {
             $product = Product::inRandomOrder()->first();
-            $productSize = ProductSize::inRandomOrder()->first();
+            $productSize = Size::inRandomOrder()->first();
 
             // on vérifie d'abord si le produit possède déjà la taille dans la table product_product_size
             $isLineAlreadyExist = DB::table('product_product_size')
