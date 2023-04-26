@@ -3,6 +3,15 @@
         <li class="breadcrumb-item active"></li>
     </ol>
     <h3 class="mt-4">Produits</h3>
+
+    @if (\Session::has('success'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{!! \Session::get('success') !!}</li>
+            </ul>
+        </div>
+    @endif
+
     <div class="d-flex justify-content-end my-2">
         <a href="{{ route('product.create') }}" class="btn btn-primary">Ajouter un produit</a>
     </div>
@@ -37,4 +46,5 @@
 
         </tbody>
     </table>
+    {{ $productsList->links() }}
 </x-app-layout>

@@ -37,7 +37,6 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        
         $selectCategories = $request->categories;
         $selectSizes = $request->sizes;
         
@@ -55,28 +54,22 @@ class ProductController extends Controller
         $newProductId = $newProduct->id;
         $newProductRef = 'ART' . str_pad($newProductId, 6, '0', STR_PAD_LEFT);
 
-        $storageFolder = "/public/products_images/$newProductRef";
+        $storageFolder = "/products_images/$newProductRef";
 
         $selectedImage = $request->file('image');
-        $path = Storage::disk('local')->putFile($storageFolder, $selectedImage);
+        $path = Storage::disk('public')->putFile($storageFolder, $selectedImage);
 
         $newProduct->update([
-            "image" => $path,
+            "image" => "storage/$path",
             'product_ref' => $newProductRef
         ]);
-        // echo '<pre>';
-        // var_dump($newProduct);
-        // echo '</pre>';
-        // die();
-
-        // $categories = Category::whereIn('id', $selectCategories)->get();
 
         $newProduct->categories()->attach($selectCategories);
         if (count($selectSizes) > 0) {
-            // $sizes = Size::whereIn('id', $selectSizes)->get();
             $newProduct->sizes()->attach($selectSizes);
         }
 
+        return redirect("/product")->with('success', "Le produit $newProductRef a bien été ajouté.");
     }
 
     /**
@@ -92,7 +85,18 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $productCategories = $product->categories()->pluck('categories.id')->toArray();
+        $productSizes = $product->sizes()->pluck('sizes.id')->toArray();
+
+        $categories = Category::all();
+        $sizes = Size::all();
+        return view('products.update', [
+            "product" => $product, 
+            "productCategories" => $productCategories, 
+            "productSizes" => $productSizes, 
+            "categories" => $categories, 
+            "sizes" => $sizes
+        ]);
     }
 
     /**

@@ -31,10 +31,10 @@
                     <div class="form-row row">
                         <div class="form-group col-6">
                             <label class="mt-2" for="productName">Nom du produit</label>
-                            <input type="text" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="productName" name="name" placeholder="Nom du produit" value="{{ isset($product) ? $product->name : '' }}" required>
+                            <input type="text" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="productName" name="name" placeholder="Nom du produit" value="{{ isset($product) ? $product->name : old('name') }}" required>
 
                             <label class="mt-2" for="productDescription">Description</label>
-                            <textarea class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" name="description" id="productDescription" rows="8" placeholder="Description" required>{{ isset($product) ? $product->description : '' }}</textarea>
+                            <textarea class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" name="description" id="productDescription" rows="8" placeholder="Description" required>{{ isset($product) ? $product->description : old('description') }}</textarea>
 
                             <div class="form-group d-flex justify-content-around">
                                 <div class="form-group d-flex flex-column align-items-center">
@@ -51,25 +51,25 @@
                         @if(isset($product))
                             <div class="form-group col-6">
                                 <div class="box">
-                                    <img src="https://anniversaire-celebrite.com/upload/250x333/carlo-tentacule-250.jpg" alt="">
+                                    <img src="http://127.0.0.1:8000/{{ $product->image }}" alt="{{ $product->product_ref }}">
                                 </div>
                             </div>
                         @endif
                         <div class="form-group col-6">
                             <label class="mt-2" for="price">Prix</label>
-                            <input type="decimal" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="price" name="price" placeholder="Prix" required>
+                            <input type="decimal" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="price" name="price" placeholder="Prix" value="{{ isset($product) ? $product->price : old('price') }}" required>
                             
                             <label class="mt-2" for="categories">Catégories</label>
                             <select class="form-control mb-2" id="categories" name="categories[]" multiple required>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ isset($product) && !in_array($category->id, $productCategories) ? "selected" : "" }}>{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ isset($product) && in_array($category->id, $productCategories) ? "selected" : (in_array($category->id, (Array)old('categories')) ? "selected" : "") }}>{{ $category->name }}</option>
                                 @endforeach
                             </select>
 
                             <label class="mt-2" for="sizes">Tailles disponibles</label>
                             <select class="form-control mb-2" id="sizes" name="sizes[]" multiple>
                                 @foreach($sizes as $size)
-                                    <option value="{{ $size->id }}" {{ isset($product) && in_array($size->id, $productSizes) ? "selected" : "" }}>{{ $size->size }}</option>
+                                    <option value="{{ $size->id }}" {{ isset($product) && in_array($size->id, $productSizes) ? "selected" : (in_array($size->id, (Array)old('sizes')) ? "selected" : "") }}>{{ $size->size }}</option>
                                 @endforeach
                             </select>
 

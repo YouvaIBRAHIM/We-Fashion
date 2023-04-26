@@ -23,7 +23,7 @@ class ProductsCategoriesSeeder extends Seeder
 
             $category = Category::inRandomOrder()->first();
 
-            DB::table('category_product')->insert([
+            DB::table('products_categories')->insert([
                 'product_id' => $product->id,
                 'category_id' => $category->id,
             ]);
@@ -41,7 +41,7 @@ class ProductsCategoriesSeeder extends Seeder
             $image = $images[array_rand($images)];
 
             $product->update([
-                "image" => $image,
+                "image" => str_replace("public", "storage",$image),
                 'product_ref' => $productRef
             ]);
         }
