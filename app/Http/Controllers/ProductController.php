@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Size;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -37,6 +38,45 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         
+        $selectCategories = $request->categories;
+        $selectSizes = $request->sizes;
+        
+
+        $newProduct = Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'image' => $request->image,
+            'is_visible' => $request->isVisible == 'on' ? true : false,
+            'state' => $request->state == 'on' ? 'en solde' : 'standard',
+            'product_ref' => "tmp_ref"
+        ]);
+
+        $newProductId = $newProduct->id;
+        $newProductRef = 'ART' . str_pad($newProductId, 6, '0', STR_PAD_LEFT);
+
+        $storageFolder = "/public/products_images/$newProductRef";
+
+        $selectedImage = $request->file('image');
+        $path = Storage::disk('local')->putFile($storageFolder, $selectedImage);
+
+        $newProduct->update([
+            "image" => $path,
+            'product_ref' => $newProductRef
+        ]);
+        // echo '<pre>';
+        // var_dump($newProduct);
+        // echo '</pre>';
+        // die();
+
+        // $categories = Category::whereIn('id', $selectCategories)->get();
+
+        $newProduct->categories()->attach($selectCategories);
+        if (count($selectSizes) > 0) {
+            // $sizes = Size::whereIn('id', $selectSizes)->get();
+            $newProduct->sizes()->attach($selectSizes);
+        }
+
     }
 
     /**

@@ -19,13 +19,13 @@ class ProductsSizesSeeder extends Seeder
             $product = Product::inRandomOrder()->first();
             $productSize = Size::inRandomOrder()->first();
 
-            // on vérifie d'abord si le produit possède déjà la taille dans la table product_product_size
-            $isLineAlreadyExist = DB::table('product_product_size')
+            // on vérifie d'abord si le produit possède déjà la taille dans la table products_sizes
+            $isLineAlreadyExist = DB::table('products_sizes')
                                         ->where("product_id", $product->id)
                                         ->where('product_size_id', $productSize->id)
                                         ->first();
             if (!$isLineAlreadyExist) {
-                DB::table('product_product_size')->insert([
+                DB::table('products_sizes')->insert([
                     'product_id' => $product->id,
                     'product_size_id' => $productSize->id,
                 ]);

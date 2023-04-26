@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_product_size', function (Blueprint $table) {
+        Schema::create('products_sizes', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('product_size_id');
             $table->foreign('product_id')->references('id')->on('products');

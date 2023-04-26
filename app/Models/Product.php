@@ -9,6 +9,15 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'image',
+        'is_visible',
+        'state',
+        'product_ref'
+    ];
     /**
     * Récupère les catégories d'un produit
     */

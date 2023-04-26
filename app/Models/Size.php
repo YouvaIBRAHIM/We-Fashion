@@ -9,6 +9,7 @@ class Size extends Model
 {
     use HasFactory;
 
+    protected $table = 'sizes';
     /**
     * Récupère les produits d'une taille
     */
