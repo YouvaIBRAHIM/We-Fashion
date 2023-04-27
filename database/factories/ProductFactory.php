@@ -22,7 +22,7 @@ class ProductFactory extends Factory
                 'description' => fake()->paragraph(3),
                 'price' => fake()->randomFloat(2, 10, 100),
                 'image' => fake()->imageUrl(640, 480, 'products', true),
-                'is_visible' => true,
+                'is_visible' => fake()->randomElement([true, false]),
                 'state' => fake()->randomElement(['en solde', 'standard']),
                 'product_ref' => fake()->unique()->regexify('ART[0-9]{6}'),
                 "created_at" => now(),

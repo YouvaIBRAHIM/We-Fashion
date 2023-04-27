@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Size;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -39,28 +38,28 @@ class ProductController extends Controller
     {
         $selectCategories = $request->categories;
         $selectSizes = $request->sizes;
-        
 
+        
         $newProduct = Product::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'image' => $request->image,
-            'is_visible' => $request->isVisible == 'on' ? true : false,
-            'state' => $request->state == 'on' ? 'en solde' : 'standard',
+            'is_visible' => filter_var($request->isVisible, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'state' => $request->state,
             'product_ref' => "tmp_ref"
         ]);
 
         $newProductId = $newProduct->id;
         $newProductRef = 'ART' . str_pad($newProductId, 6, '0', STR_PAD_LEFT);
 
-        $storageFolder = "/products_images/$newProductRef";
+        $storageFolder = "products_images/$newProductRef";
 
         $selectedImage = $request->file('image');
         $path = Storage::disk('public')->putFile($storageFolder, $selectedImage);
 
         $newProduct->update([
-            "image" => "storage/$path",
+            "image" => $path,
             'product_ref' => $newProductRef
         ]);
 
@@ -102,9 +101,59 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $productRef = $product->product_ref;
+        $productId = $product->id;
+
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'is_visible' => filter_var($request->isVisible, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'state' => $request->state
+        ]);
+
+        //stockage et mise à jour de l'image du produit si une nouvelle image a été selectionnée
+        if ($selectedImage = $request->file('image')) {
+            $previousImage = $product->image;
+            
+                        // supprime l'ancienne image
+                        $this->deletePreviousImage($previousImage);
+
+            $storageFolder = "products_images/$productRef";
+            $path = Storage::disk('public')->putFile($storageFolder, $selectedImage);
+            $product->update([
+                "image" => $path
+            ]);
+        }
+
+        //Mise à jour des categories du produit
+        $selectCategories = $request->categories;
+        $previousCategories = $product->categories()->pluck('categories.id')->toArray();
+
+        //categories à ajouter au produit
+        $newCategories = array_diff($selectCategories, $previousCategories);
+        $product->categories()->sync($newCategories, false);
+
+        //categories à supprimer au produit
+        $categoriesToDelete = array_diff($previousCategories, $selectCategories);
+        $product->categories()->detach($categoriesToDelete);
+
+        //Mise à jour des tailles du produit
+        $selectSizes = $request->sizes;
+        $previousSizes = $product->sizes()->pluck('sizes.id')->toArray();
+
+        //tailes à ajouter au produit
+        $newSizes = array_diff($selectSizes, $previousSizes);
+        $product->Sizes()->sync($newSizes, false);
+
+        //tailles à supprimer au produit
+        $sizesToDelete = array_diff($previousSizes, $selectSizes);
+        $product->sizes()->detach($sizesToDelete);
+        
+        return redirect("/product/$productId/edit")->with('success', "Le produit $productRef a bien été mis à jour.");
+
     }
 
     /**
@@ -112,6 +161,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $productRef = $product->product_ref;
+        $product->delete();
+        return redirect("/product")->with('success', "Le produit $productRef a bien été supprimé.");
+    }
+
+    public function deletePreviousImage(String $productImage)
+    {
+        if (Storage::exists("public/$productImage")) {
+            Storage::delete("public/$productImage");
+        }
     }
 }

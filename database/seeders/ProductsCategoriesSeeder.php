@@ -41,7 +41,7 @@ class ProductsCategoriesSeeder extends Seeder
             $image = $images[array_rand($images)];
 
             $product->update([
-                "image" => str_replace("public", "storage",$image),
+                "image" => str_replace("public", "",$image),
                 'product_ref' => $productRef
             ]);
         }
