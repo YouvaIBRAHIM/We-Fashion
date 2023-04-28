@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +31,13 @@ Route::middleware('auth')->group(function () {
 
     //Routes des produits
     Route::resource('product', 'App\Http\Controllers\ProductController');
+    Route::delete('/multipleDeleteProducts', [ProductController::class, 'multipleDelete'])->name('product.multipleDelete');
 
+    
     //Routes des catégories
     Route::resource('category', 'App\Http\Controllers\CategoryController');
+    Route::delete('/multipleDeleteCategories', [CategoryController::class, 'multipleDelete'])->name('category.multipleDelete');
+
 });
 
 require __DIR__.'/auth.php';

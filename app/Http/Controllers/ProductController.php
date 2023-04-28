@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Size;
@@ -119,8 +120,8 @@ class ProductController extends Controller
         if ($selectedImage = $request->file('image')) {
             $previousImage = $product->image;
             
-                        // supprime l'ancienne image
-                        $this->deletePreviousImage($previousImage);
+            // supprime l'ancienne image
+            $this->deletePreviousImage($previousImage);
 
             $storageFolder = "products_images/$productRef";
             $path = Storage::disk('public')->putFile($storageFolder, $selectedImage);
@@ -163,8 +164,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $productRef = $product->product_ref;
+        $this->deletePreviousImage($product->image);
         $product->delete();
-        return redirect("/product")->with('success', "Le produit $productRef a bien été supprimé.");
+        return redirect(route("product.index"))->with('success', "Le produit $productRef a bien été supprimé.");
     }
 
     public function deletePreviousImage(String $productImage)
@@ -172,5 +174,16 @@ class ProductController extends Controller
         if (Storage::exists("public/$productImage")) {
             Storage::delete("public/$productImage");
         }
+    }
+
+    public function multipleDelete(Request $request)
+    {
+        $productsToDelete = explode(",", $request->productIds);
+        $products = Product::whereIn('id', $productsToDelete)->get();
+        foreach ($products as $product) {
+            $this->deletePreviousImage($product->image);
+            $product->delete();
+        }
+        return redirect(route("product.index"))->with('success', "Les produits sélectionnés ont bien été supprimés.");
     }
 }

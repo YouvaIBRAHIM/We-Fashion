@@ -1,5 +1,5 @@
 
-<div class="modal fade show" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,7 +41,6 @@
 
         // met à jour l'attribut "action" du formulaire de suppression avec l'ID du produit
         const deleteForm = document.querySelector('#deleteForm');
-        console.log(deleteModal);
         deleteForm.action = `/product/${productId}`;
 
         // ouvre le modal de confirmation de suppression

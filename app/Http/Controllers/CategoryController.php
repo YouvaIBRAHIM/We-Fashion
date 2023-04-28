@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -92,5 +93,12 @@ class CategoryController extends Controller
         $categoryName = $category->name;
         $category->delete();
         return redirect(route("category.index"))->with('success', "La catégorie <strong>$categoryName</strong> a bien été supprimée.");
+    }
+
+    public function multipleDelete(Request $request)
+    {
+        $categoriesToDelete = explode(",", $request->categoryIds);
+        Category::whereIn('id', $categoriesToDelete)->delete();
+        return redirect(route("category.index"))->with('success', "Les catégories sélectionnées ont bien été supprimées.");
     }
 }

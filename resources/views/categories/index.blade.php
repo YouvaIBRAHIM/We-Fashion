@@ -1,11 +1,20 @@
 <x-app-layout>
+    <style>
+        .multipleDeleteBtn{
+            display: none;
+        }
+        .showMultipleDeleteBtn{
+            display: flex!important;
+        }
+    </style>
+
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active"></li>
     </ol>
     <h3 class="mt-4">Produits</h3>
 
     @if (\Session::has('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible">
             <ul>
                 <li>{!! \Session::get('success') !!}</li>
             </ul>
@@ -13,29 +22,38 @@
     @endif
 
     @if (\Session::has('warning'))
-        <div class="alert alert-warning">
+        <div class="alert alert-warning alert-dismissible">
             <ul>
                 <li>{!! \Session::get('warning') !!}</li>
             </ul>
         </div>
     @endif
 
-    <div class="d-flex justify-content-end my-2">
+    <div class="d-flex justify-content-start my-2">
         <a href="{{ route('category.create') }}" class="btn btn-primary">Ajouter une catégorie</a>
+        <button type="button" class="btn btn-danger mx-2 multipleDeleteBtn"  data-toggle="modal" data-target="#multipleDeleteModal">
+            Suppression multiple
+        </button>
     </div>
     <table class="table">
         <thead>
             <tr>
-            <th scope="col">Réf</th>
-            <th scope="col">Libellé</th>
-            <th scope="col">Slug</th>
-            <th scope="col"  class="text-center">Actions</th>
+                <th scope="col" class="text-center">
+                    <input type="checkbox" id="selectAllColumns">
+                </th>
+                <th scope="col">Réf</th>
+                <th scope="col">Libellé</th>
+                <th scope="col">Slug</th>
+                <th scope="col"  class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($categoriesList as $category)
                 <tr>
-                    <th scope="row">{{$category->id}}</th>
+                    <th class="text-center">
+                        <input type="checkbox" value="{{$category->id}}" name="categoryIds[]" class="columnSelector" data-column="category-{{$category->id}}">
+                    </th>
+                    <td scope="row">{{$category->id}}</td>
                     <td>{{$category->name}}</td>
                     <td>{{strtoupper($category->slug)}}
 
@@ -56,5 +74,39 @@
     {{ $categoriesList->links() }}
     
     @include('categories.deleteModal')
+    @include('categories.multipleDeleteModal')
 
+    <script>
+        // Script pour sélectionner toutes les colonnes
+        const selectAllColumns = document.querySelector('#selectAllColumns');
+        const columnSelectors = document.querySelectorAll('.columnSelector');
+
+        selectAllColumns.addEventListener('change', () => {
+            if (selectAllColumns.checked === true) {
+                multipleDeleteBtn.classList.add('showMultipleDeleteBtn');
+            }else{
+                multipleDeleteBtn.classList.remove('showMultipleDeleteBtn');
+            }
+            columnSelectors.forEach(selector => {
+                selector.checked = selectAllColumns.checked;
+            });
+        });
+
+        tbody.addEventListener('click', (event) => {
+            
+            if (event.target.className == "columnSelector") {
+                let isColumnSelected = false;
+                columnSelectors.forEach(selector => {
+                    if (selector.checked) {
+                        isColumnSelected = true;
+                    }
+                });
+                if (isColumnSelected) {
+                    multipleDeleteBtn.classList.add('showMultipleDeleteBtn');
+                }else{
+                    multipleDeleteBtn.classList.remove('showMultipleDeleteBtn');
+                }
+            }
+        })
+    </script>
 </x-app-layout>
