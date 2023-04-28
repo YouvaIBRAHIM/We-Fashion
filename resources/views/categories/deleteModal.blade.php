@@ -35,14 +35,14 @@
         const deleteModal = document.querySelector('#deleteModal');
 
         // récupère l'ID du produit à supprimer
-        const productId = deleteButton.getAttribute('data-product-id');
-        const productRef = deleteButton.getAttribute('data-product-ref');
-        deleteModal.querySelector('.modal-body').innerText = `Voulez-vous vraiment supprimer le produit ${productRef} ?`;
+        const categoryId = deleteButton.getAttribute('data-category-id');
+        const categoryName = deleteButton.getAttribute('data-category-name');
+        deleteModal.querySelector('.modal-body').innerText = `Voulez-vous vraiment supprimer la catégorie ${categoryName} ?`;
 
         // met à jour l'attribut "action" du formulaire de suppression avec l'ID du produit
         const deleteForm = document.querySelector('#deleteForm');
         console.log(deleteModal);
-        deleteForm.action = `/product/${productId}`;
+        deleteForm.action = `/category/${categoryId}`;
 
         // ouvre le modal de confirmation de suppression
         deleteModal.classList.add('show');

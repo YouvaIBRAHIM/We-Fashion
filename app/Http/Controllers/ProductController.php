@@ -89,6 +89,7 @@ class ProductController extends Controller
 
         $categories = Category::all();
         $sizes = Size::all();
+        
         return view('products.update', [
             "product" => $product, 
             "productCategories" => $productCategories, 
