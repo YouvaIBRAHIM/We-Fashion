@@ -13,9 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categoriesList = Category::orderBy("created_at", "desc")->paginate(15);
-
-        return view('categories.index', ['categoriesList' => $categoriesList]);
+        $categoriesList = Category::withCount('products')->orderBy("created_at", "desc")->paginate(15);
+        // dd($categoriesList);
+        return view('backend.categories.index', ['categoriesList' => $categoriesList]);
     }
 
     /**
@@ -23,7 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('backend.categories.create');
     }
 
     /**
@@ -59,7 +59,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.update', [
+        return view('backend.categories.update', [
             "category" => $category
         ]);
     }

@@ -5,5 +5,5 @@
     </ol>
     <h3 class="mt-4">Nouvelle catégorie</h3>
     
-    @include('categories.form')
+    @include('backend.categories.form')
 </x-app-layout>

@@ -7,6 +7,9 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/guestApp.js',
+                'resources/css/styles.css',
+                'resources/css/clientStyles.css',
             ],
             refresh: true,
         }),

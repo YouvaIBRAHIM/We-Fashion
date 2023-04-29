@@ -11054,6 +11054,9 @@ body {
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
   color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  background-color: #66EB9A;
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
   color: #fff;

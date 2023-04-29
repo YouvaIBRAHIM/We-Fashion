@@ -5,5 +5,5 @@
     </ol>
     <h3 class="mt-4">Nouveau produit</h3>
     
-    @include('products.form')
+    @include('backend.products.form')
 </x-app-layout>

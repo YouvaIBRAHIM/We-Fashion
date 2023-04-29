@@ -16,13 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [ProductController::class, 'show']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //Routes des produits
-    Route::resource('product', 'App\Http\Controllers\ProductController');
+    Route::resource('product', 'App\Http\Controllers\ProductController')->except(['show']);
     Route::delete('/multipleDeleteProducts', [ProductController::class, 'multipleDelete'])->name('product.multipleDelete');
 
     

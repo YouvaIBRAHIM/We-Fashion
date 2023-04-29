@@ -19,7 +19,7 @@ class ProductController extends Controller
     {
         $productsList = Product::orderBy("created_at", "desc")->paginate(15);
 
-        return view('products.index', ['productsList' => $productsList]);
+        return view('backend.products.index', ['productsList' => $productsList]);
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $sizes = Size::all();
-        return view('products.create', ["categories" => $categories, "sizes" => $sizes]);
+        return view('backend.products.create', ["categories" => $categories, "sizes" => $sizes]);
     }
 
     /**
@@ -73,11 +73,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
+    * Display the specified resource.
+    */
     public function show(Product $product)
     {
-        //
+        return view('client.index');
     }
 
     /**
@@ -91,7 +91,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $sizes = Size::all();
         
-        return view('products.update', [
+        return view('backend.products.update', [
             "product" => $product, 
             "productCategories" => $productCategories, 
             "productSizes" => $productSizes, 

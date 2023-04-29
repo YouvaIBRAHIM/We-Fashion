@@ -1,0 +1,253 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+  font-family: 'segoe ui';
+}
+
+.nav {
+  height: 60px;
+  width: 100%;
+  background-color: #eee;
+  position: relative;
+}
+
+.nav > .nav-header {
+  display: inline;
+  height: 60px;
+}
+
+.nav > .nav-header > .nav-title {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: 900;
+  color: #66EB9A;
+  padding: 5px 30px 0 30px;
+}
+
+.nav > .nav-btn {
+  display: none;
+}
+
+.nav > .nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: right;
+  font-size: 18px;
+  height: 60px;
+}
+
+.nav > .nav-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #0e0e0e;
+  width: auto;
+  height: 50px;
+  display: flex;
+  overflow: hidden;
+  background: #fff;
+  margin: 0 10px 0 10px;
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.nav > .nav-links > a:hover {
+  background-color: #66EB9A50;
+}
+
+.nav > #nav-check {
+  display: none;
+}
+
+.select-btn {
+  width: 135px;
+  height: 50px;
+  display: flex;
+  overflow: hidden;
+  background: #fff;
+  margin: 0 10px 0 10px;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 8px;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.options {
+  position: absolute;
+  width: 250px;
+  right: 0;
+  overflow: auto;
+  max-height: 295px;
+  padding: 10px;
+  margin: 0 10px 0 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  animation: fadeInDown 0.35s both;
+}
+
+ .options .option {
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 ;
+  border-radius: 8px;
+  align-items: center;
+  background: #fff;
+  width: 100%!important;
+
+}
+
+.options .option .dropdown-item {
+  width: 100%!important;
+  height: 100%!important;
+  margin: 0!important;
+}
+
+.options .option .dropdown-item:hover {
+  background-color: #66EB9A50;
+}
+
+.options .option .option-text {
+  font-size: 18px;
+  color: #333;
+}
+
+.select-btn svg {
+  height: 18px;
+  width: 18px;
+  transition: 0.2s;
+}
+
+.active .select-btn svg {
+  transform: rotate(180deg);
+}
+
+.active .options {
+  display: block;
+  opacity: 0;
+  z-index: 10;
+  animation: fadeInUp 0.4s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 30px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 20px, 0);
+    opacity: 0;
+  }
+}
+
+@media (max-width:860px) {
+  .nav > .nav-btn {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+  }
+  .nav > .nav-btn > label {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    padding: 19px;
+    background-color: #66EB9A;
+    cursor: pointer;
+  }
+  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+    background-color: #66EB9A85;
+  }
+  .nav > .nav-btn > label > span {
+    display: block;
+    width: 25px;
+    height: 10px;
+    border-top: 2px solid #eee;
+  }
+  .nav > .nav-links {
+    position: absolute;
+    display: block;
+    width: 100%;
+    background-color: #eee;
+    height: 0px;
+    transition: all 0.3s ease-in;
+    overflow-y: hidden;
+    top: 60px;
+    left: 0px;
+  }
+  .nav > .nav-links a {
+    width: calc(100% - 20px); 
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .nav > #nav-check:not(:checked) ~ .nav-links {
+    height: 0px;
+  }
+  .nav > #nav-check:checked ~ .nav-links {
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+  }
+
+  
+.select-btn {
+  width: calc(100% - 20px);
+  margin-top: 10px;
+  padding: 20px;
+}
+
+.options {
+  width: calc(100% - 20px);
+}
+
+ .options .option {
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 ;
+  border-radius: 8px;
+  align-items: center;
+  background: #fff;
+  width: 100%!important;
+
+}
+
+.options .option .dropdown-item {
+  width: 100%!important;
+  height: 100%!important;
+  margin: 0!important;
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+
+}
