@@ -82,9 +82,10 @@ class ProductController extends Controller
     */
     public function show(Product $product, $id)
     {
-        $product = Product::where([["is_visible", 1], ["id", $id]])->with(["categories", "sizes"])->firstorfail();
+        $product = Product::where([ ["id", $id]])->with(["categories", "sizes"])->firstorfail();
 
-        return view('client.products.product', ['product' => $product]);
+        $otherProducts = Product::where([["is_visible", 1], ["id", "<>", $id]])->with(["categories", "sizes"])->inRandomOrder()->take(10)->get();
+        return view('client.products.product', ['product' => $product, 'otherProducts' => $otherProducts ]);
     }
 
     /**

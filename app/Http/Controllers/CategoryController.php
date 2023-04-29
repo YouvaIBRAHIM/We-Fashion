@@ -57,6 +57,7 @@ class CategoryController extends Controller
         $categoryName = $category->name;
 
         $productsList = $category->products()
+                                    ->where("is_visible", 1)
                                     ->with(["categories", "sizes"])
                                     ->orderBy("created_at", "desc")
                                     ->paginate(15);

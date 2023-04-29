@@ -177,6 +177,7 @@ body {
   font-weight: 900;
   font-size: 32px;
   color: #333;
+  text-align: center;
 }
 
 .productsFound{
@@ -209,6 +210,7 @@ body {
   justify-content: center;
   flex-direction: row;
   align-items: center;
+  position: relative;
 }
 h5 {
   text-transform: uppercase;
@@ -233,6 +235,8 @@ a {
   border-radius: 10px 10px 0 0;
   width: 100%;
   height: auto;
+  position: relative;
+  z-index: 0;
 }
 .product-pic {
   max-width: 180px;
@@ -282,10 +286,15 @@ a {
 .product-details .controls {
   margin: 3em 0;
 }
-.product-details .controls > div {
-  /* flex: 1; */
+.product-details .outOfStock {
+  margin: 30px 0;
 }
 
+.product-details .outOfStock span {
+  color: #fe6168;
+  font-weight: 700;
+  font-size: 20px;
+} 
 
 .product-details .controls > div + div {
   margin-top: 20px;
@@ -371,6 +380,54 @@ a {
 .footer > a:hover img {
   opacity: 1;
 }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+  }
+    100% {
+      transform: translateX(calc(-250px * 7));
+  }
+  }
+  .slider {
+    background: white;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, .125);
+    height: 100%;
+    margin: 75px auto;
+    overflow: hidden;
+    position: relative;
+  }
+  .slider h2 {
+    color: #2bca90;
+    margin: 10px 20px;
+  }
+  .slider::before, .slider::after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    content: "";
+    /* height: 100px; */
+    position: absolute;
+    width: 200px;
+    z-index: 2;
+  }
+  .slider::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
+  .slider::before {
+    left: 0;
+    top: 0;
+  }
+  .slider .slide-track {
+    animation: scroll 40s linear infinite;
+    display: flex;
+    width: calc(250px * 5);
+  }
+  .slider .slide {
+    /* height: 100px;
+    width: 250px; */
+
+  }
 @media (min-width: 37.5em) {
   .product-details .rate {
     position: absolute;
@@ -391,6 +448,11 @@ a {
   .product-details .controls {
     display: flex;
  }
+ .productContainer .banner{
+    width: 110px!important;
+    height: 110px!important;
+    left: calc(50% - 100px)!important;
+  }
 }
 @media (min-width: 56.25em) {
   .productContainer {
@@ -404,13 +466,14 @@ a {
     max-width: 330px;
  }
   .product-pic {
-    left: -40px;
     max-width: 330px;
  }
   .product-details {
     width: 100%;
     border-radius: 0 20px 20px 0;
  }
+
+
 }
 
 
@@ -457,7 +520,7 @@ a {
   justify-content: space-between;
 }
 
-.card .banner {
+.card .banner, .productContainer .banner {
   position: absolute;
   overflow: hidden;
   width: 150px;
@@ -469,7 +532,14 @@ a {
   justify-content: center;
 }
 
-.card .banner::before {
+.productContainer .banner{
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 50;
+}
+
+.card .banner::before, .productContainer .banner::before {
   content: 'En solde';
   position: absolute;
   width: 150%;
@@ -486,7 +556,8 @@ a {
   box-shadow: 0 5px 10px rgba(0,0,0,0.23);
 }
 
-.card .banner::after {
+
+.card .banner::after, .productContainer .banner::after {
   content: '';
   position: absolute;
   width: 10px;
@@ -578,9 +649,13 @@ a {
   font-size: 1.2em;
   line-height: 1.5;
   margin: 10px 0px!important;
-
  }
- 
+
+.card-footer .text-title {
+  color: #fe6168;
+}
+
+
  .text-body {
   font-size: .9em;
   padding-bottom: 10px;
@@ -752,5 +827,11 @@ ul.pagination li.disabled span {
     margin: 0!important;
     display: flex;
     justify-content: flex-start;
+  }
+
+  .productContainer .banner{
+    width: 110px!important;
+    height: 110px!important;
+    left: calc(50% - 100px)!important;
   }
 }
