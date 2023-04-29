@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="productsFound">
         <span>
-            Produits trouvés : {{$productsList->total()}}
+            {{$productsList->total()}} résultats
         </span>
         @if(isset($categoryName))
             <h3>

@@ -2,7 +2,7 @@
   <input type="checkbox" id="nav-check">
   <div class="nav-header">
     <div class="nav-title">
-      WeFashion
+      <a href="{{ route('product.clientIndex') }}">WeFashion</a>
     </div>
   </div>
   <div class="nav-btn">
@@ -14,9 +14,11 @@
   </div>
   
   <div class="nav-links">
+    <a href="{{ route('product.promotions') }}">Solde</a>
+
         @php
             $categoriesCount = $categories->count();
-            $limit = 4;
+            $limit = 3;
             $remainingCategoriesCount = $categoriesCount - $limit;
         @endphp
 

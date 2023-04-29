@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [ProductController::class, 'clientIndex'])->name("product.clientIndex");
 Route::get('/product/{id}', [ProductController::class, 'show'])->name("product.show");
+Route::get('/soldes', [ProductController::class, 'clientPromotionsIndex'])->name("product.promotions");
 Route::get('/category/{slug}', [CategoryController::class, 'show'])->name("category.show");
 
 require __DIR__.'/auth.php';

@@ -17,14 +17,22 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productsList = Product::orderBy("created_at", "desc")->paginate(15);
+        $productsList = Product::orderBy("created_at", "desc")->paginate(6);
         return view('backend.products.index', ['productsList' => $productsList]);
     }
 
     public function clientIndex()
     {
-        $productsList = Product::where("is_visible", 1)->with(["categories", "sizes"])->orderBy("created_at", "desc")->paginate(15);
+        $productsList = Product::where("is_visible", 1)->with(["categories", "sizes"])->orderBy("created_at", "desc")->paginate(6);
         return view('client.products.index', ['productsList' => $productsList]);
+    }
+
+    
+    public function clientPromotionsIndex()
+    {
+        $categoryName = "Soldes";
+        $productsList = Product::where([["is_visible", 1], ["state", "en solde"]])->with(["categories", "sizes"])->orderBy("created_at", "desc")->paginate(6);
+        return view('client.products.index', ['productsList' => $productsList, 'categoryName' => $categoryName]);
     }
 
     /**
@@ -74,7 +82,7 @@ class ProductController extends Controller
             $newProduct->sizes()->attach($selectSizes);
         }
 
-        return redirect("/product")->with('success', "Le produit $newProductRef a bien été ajouté.");
+        return redirect(route('product.index'))->with('success', "Le produit $newProductRef a bien été ajouté.");
     }
 
     /**
@@ -162,7 +170,7 @@ class ProductController extends Controller
         $sizesToDelete = array_diff((array)$previousSizes, (array)$selectSizes);
         $product->sizes()->detach($sizesToDelete);
         
-        return redirect("/product/$productId/edit")->with('success', "Le produit $productRef a bien été mis à jour.");
+        return redirect(route('product.index'))->with('success', "Le produit $productRef a bien été mis à jour.");
 
     }
 
