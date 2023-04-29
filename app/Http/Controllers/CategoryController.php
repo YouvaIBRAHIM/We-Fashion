@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categoriesList = Category::withCount('products')->orderBy("created_at", "desc")->paginate(15);
-        // dd($categoriesList);
+
         return view('backend.categories.index', ['categoriesList' => $categoriesList]);
     }
 
@@ -49,9 +50,15 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Category $category, $slug)
     {
-        //
+        $productsList = Category::where("slug", $slug)
+                                    ->first()
+                                    ->products()
+                                    ->with(["categories", "sizes"])
+                                    ->orderBy("created_at", "desc")
+                                    ->paginate(15);
+        return view('client.products.index', ['productsList' => $productsList]);
     }
 
     /**

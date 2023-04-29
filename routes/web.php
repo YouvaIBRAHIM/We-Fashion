@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductController::class, 'clientIndex'])->name("product.clientIndex");
-Route::get('/product/{id}', [ProductController::class, 'show'])->name("product.show");
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,9 +29,13 @@ Route::middleware('auth')->group(function () {
 
     
     //Routes des catégories
-    Route::resource('category', 'App\Http\Controllers\CategoryController');
+    Route::resource('category', 'App\Http\Controllers\CategoryController')->except(['show']);
     Route::delete('/multipleDeleteCategories', [CategoryController::class, 'multipleDelete'])->name('category.multipleDelete');
 
 });
+
+Route::get('/', [ProductController::class, 'clientIndex'])->name("product.clientIndex");
+Route::get('/product/{id}', [ProductController::class, 'show'])->name("product.show");
+Route::get('/category/{slug}', [CategoryController::class, 'show'])->name("category.show");
 
 require __DIR__.'/auth.php';

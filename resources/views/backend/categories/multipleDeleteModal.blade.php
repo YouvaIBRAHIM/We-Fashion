@@ -35,7 +35,7 @@
         selectedRows.forEach(function(row) {
             selectedIds.push(row.value);
         });
-console.log(selectedIds);
+
         categoryIds.value = selectedIds.join(',')
         // ouvre le modal de confirmation de suppression
         multipleDeleteModal.classList.add('show');

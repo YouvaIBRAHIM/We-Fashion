@@ -21,7 +21,7 @@
         @endphp
 
         @foreach($categories->take($limit) as $category)
-            <a href="{{ route('category.show', $category->id) }}">{{ $category->name }}</a>
+            <a href="{{ route('category.show', $category->slug) }}">{{ $category->name }}</a>
         @endforeach
 
         @if($remainingCategoriesCount > 0)
@@ -35,7 +35,7 @@
                 <ul class="options">
                     @foreach($categories->skip($limit) as $category)
                         <li class="option">
-                            <a class="dropdown-item" href="{{ route('category.show', $category->id) }}">
+                            <a class="dropdown-item" href="{{ route('category.show', $category->slug) }}">
                                 {{ $category->name }}
                             </a>
                         </li>
