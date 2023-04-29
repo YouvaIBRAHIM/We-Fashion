@@ -218,36 +218,32 @@ body {
   }
 
   
-.select-btn {
-  width: calc(100% - 20px);
-  margin-top: 10px;
-  padding: 20px;
-}
+  .select-btn {
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    padding: 20px;
+  }
 
-.options {
-  width: calc(100% - 20px);
-}
+  .options {
+    width: calc(100% - 20px);
+  }
 
  .options .option {
-  display: flex;
-  height: 55px;
-  cursor: pointer;
-  padding: 0 ;
-  border-radius: 8px;
-  align-items: center;
-  background: #fff;
-  width: 100%!important;
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 ;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+    width: 100%!important;
+  }
 
-}
-
-.options .option .dropdown-item {
-  width: 100%!important;
-  height: 100%!important;
-  margin: 0!important;
-  display: flex;
-  justify-content: flex-start;
-
-}
-
-
+  .options .option .dropdown-item {
+    width: 100%!important;
+    height: 100%!important;
+    margin: 0!important;
+    display: flex;
+    justify-content: flex-start;
+  }
 }
