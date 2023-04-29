@@ -10847,6 +10847,16 @@ body {
   height: 100%;
 }
 
+.navbar{
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+  padding: 0;
+}
+
+.navbar .content{
+  width: 100%;
+}
 #layoutAuthentication {
   display: flex;
   flex-direction: column;
@@ -10869,6 +10879,8 @@ body {
   transition: transform 0.15s ease-in-out;
   z-index: 1038;
   transform: translateX(-225px);
+  position: fixed;
+  width: 225px;
 }
 #layoutSidenav #layoutSidenav_content {
   position: relative;
@@ -10878,7 +10890,8 @@ body {
   min-width: 0;
   flex-grow: 1;
   min-height: calc(100vh - 56px);
-  margin-left: -225px;
+  /* margin-left: -225px; */
+  margin-top: 64px;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
@@ -10903,14 +10916,14 @@ body {
     transform: translateX(0);
   }
   #layoutSidenav #layoutSidenav_content {
-    margin-left: 0;
+    margin-left: 225px;
     transition: margin 0.15s ease-in-out;
   }
   .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
     transform: translateX(-225px);
   }
   .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
-    margin-left: -225px;
+    margin-left: 0px;
   }
   .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
     display: none;
@@ -10976,8 +10989,9 @@ body {
 .sb-sidenav {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100vh - 64px);
   flex-wrap: nowrap;
+  margin-top: 64px;
 }
 .sb-sidenav .sb-sidenav-menu {
   flex-grow: 1;

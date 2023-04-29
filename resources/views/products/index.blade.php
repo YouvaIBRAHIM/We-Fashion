@@ -37,35 +37,33 @@
                 Suppression multiple
             </button>
         </div>
-
-
+    <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col" class="text-center">
-                    <input type="checkbox" id="selectAllColumns">
-                </th>
-                <th scope="col">Réf</th>
-                <th scope="col">Nom</th>
-                <th scope="col">État</th>
-                <th scope="col">Visibilité</th>
-                <th scope="col"  class="text-center">Actions</th>
+                    <th scope="col" class="text-center">
+                        <input type="checkbox" id="selectAllColumns">
+                    </th>
+                    <th scope="col" class="text-center">Réf</th>
+                    <th scope="col" class="text-center">Nom</th>
+                    <th scope="col" class="text-center">État</th>
+                    <th scope="col" class="text-center">Visibilité</th>
+                    <th scope="col" class="text-center d-md-table-cell">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($productsList as $product)
                     <tr>
-                        <th class="text-center">
+                        <td class="text-center">
                             <input type="checkbox" value="{{$product->id}}" name="productIds[]" class="columnSelector" data-column="product-{{$product->id}}">
-                        </th>
-                        <td scope="row">{{$product->product_ref}}</td>
-                        <td>{{$product->name}}</td>
-                        <td>{{strtoupper($product->state)}}</td>
-                        <td>
+                        </td>
+                        <td scope="row" class="text-center">{{$product->product_ref}}</td>
+                        <td class="text-center">{{$product->name}}</td>
+                        <td class="text-center">{{strtoupper($product->state)}}</td>
+                        <td class="text-center">
                             <span class="{{$product->is_visible ? 'text-success' : 'text-danger'}}">{{$product->is_visible ? "Publié" : "Non publié"}}</span>
                         </td>
-    
-                        <td>
+                        <td class="text-center d-md-table-cell">
                             <div class="d-flex justify-content-around">
                                 <a href="{{ route('product.edit', $product->id) }}" class="edit" title="Éditer" data-toggle="tooltip"><i class="fa-solid fa-pen-to-square text-primary"></i></a>
                                 <button id="deleteButton" type="button" data-toggle="modal" data-target="#deleteModal"  data-product-id="{{ $product->id }}" data-product-ref="{{ $product->product_ref }}">
@@ -75,15 +73,12 @@
                         </td>
                     </tr>
                 @endForeach
-    
             </tbody>
-    
         </table>
-
-        @include('products.multipleDeleteModal')
-
+    </div>
     {{ $productsList->links() }}
-    
+
+    @include('products.multipleDeleteModal')
     @include('products.deleteModal')
 
     <script>

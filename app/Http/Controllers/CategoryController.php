@@ -59,7 +59,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('category.update', [
+        return view('categories.update', [
             "category" => $category
         ]);
     }
@@ -72,7 +72,7 @@ class CategoryController extends Controller
         $previousCategoryName = $category->name;
         $categoryId = $category->id;
 
-        if ($previousCategoryName !== $category->name) {
+        if ($previousCategoryName !== $request->name) {
             $category->update([
                 'name' => $request->name,
                 'slug' => Str::slug($request->name, '-')

@@ -39,7 +39,7 @@
                     @method(isset($product) ? 'PUT' : 'POST')
                     
                     <div class="form-row row">
-                        <div class="form-group col-6">
+                        <div class="form-group col-12 col-md-6 mb-4">
                             <label class="mt-2" for="productName">Nom du produit</label>
                             <input type="text" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="productName" name="name" placeholder="Nom du produit" value="{{ isset($product) ? $product->name : old('name') }}" required>
 
@@ -59,13 +59,13 @@
                             </div>
                         </div>
                         @if(isset($product))
-                            <div class="form-group col-6">
+                            <div class="form-group col-12 col-md-6 mb-4">
                                 <div class="box">
                                     <img src="{{ url('storage', $product->image) }}" alt="{{ $product->product_ref }}">
                                 </div>
                             </div>
                         @endif
-                        <div class="form-group col-6">
+                        <div class="form-group col-12 col-md-6 mb-4">
                             <label class="mt-2" for="price">Prix</label>
                             <input type="decimal" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="price" name="price" placeholder="Prix" value="{{ isset($product) ? $product->price : old('price') }}" required>
                             

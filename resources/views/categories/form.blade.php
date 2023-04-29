@@ -17,6 +17,14 @@
         </div>
     @endif
 
+    @if (\Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible">
+            <ul>
+                <li>{!! \Session::get('warning') !!}</li>
+            </ul>
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible">
             <ul>
@@ -35,15 +43,15 @@
                     @method(isset($category) ? 'PUT' : 'POST')
                     
                     <div class="form-row row">
-                        <div class="form-group col-6">
+                        <div class="form-group col-12 col-md-6 mb-4">
                             <label class="mt-2" for="categoryName">Nom de la catégorie</label>
                             <input type="text" class="form-control mb-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded shadow" id="productName" name="name" placeholder="Nom de la catégorie" value="{{ isset($category) ? $category->name : old('name') }}" required>
 
                         </div>
                         @if(isset($category))
-                            <div class="form-group col-6">
+                            <div class="form-group col-12 col-md-6 mb-4">
                                 <div class="box">
-                                    {{ $category->slug }}
+                                    <label class="mt-2" for="categoryName">Alias : {{ $category->slug }}</label>
                                 </div>
                             </div>
                         @endif

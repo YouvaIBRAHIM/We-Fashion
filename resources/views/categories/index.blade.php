@@ -55,7 +55,7 @@
                     </th>
                     <td scope="row">{{$category->id}}</td>
                     <td>{{$category->name}}</td>
-                    <td>{{strtoupper($category->slug)}}
+                    <td>{{$category->slug}}
 
                     <td>
                         <div class="d-flex justify-content-around">
