@@ -18,8 +18,13 @@ class ProductController extends Controller
     public function index()
     {
         $productsList = Product::orderBy("created_at", "desc")->paginate(15);
-
         return view('backend.products.index', ['productsList' => $productsList]);
+    }
+
+    public function clientIndex()
+    {
+        $productsList = Product::where("is_visible", 1)->with(["categories", "sizes"])->orderBy("created_at", "desc")->paginate(15);
+        return view('client.products.index', ['productsList' => $productsList]);
     }
 
     /**

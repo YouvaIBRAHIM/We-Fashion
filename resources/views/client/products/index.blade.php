@@ -1,128 +1,48 @@
-<x-app-layout>
-    <style>
-        .multipleDeleteBtn{
-            display: none;
-        }
-        .showMultipleDeleteBtn{
-            display: flex!important;
-        }
-    </style>
+<x-guest-layout>
+    <div class="cards-container">
+        @foreach($productsList as $product)
+            <div class="card">
+                @if($product->state == "en solde")
+                    <span class="banner"></span>
+                @endif
+                <div class="card-img">
+                    <img src="{{ url('storage', $product->image) }}" alt="" srcset="">
+                </div>
+                <div class="sizes">
+                    @foreach($product->sizes as $size)
+                        <div class="size">
+                            {{$size->size}}
+                        </div>
+                    @endforeach
+                </div>
+                <div class="card-info">
+                    <div class="categories">
+                        @foreach($product->categories as $category)
+                            <span class="category">
+                                {{ $category->name }}
+                            </span>
+                        @endforeach
+                    </div>
 
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active"></li>
-    </ol>
-    <h3 class="mt-4">Produits</h3>
-
-    @if (\Session::has('success'))
-        <div class="alert alert-success alert-dismissible">
-            <ul>
-                <li>{!! \Session::get('success') !!}</li>
-            </ul>
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-        <div class="d-flex justify-content-start my-2">
-            <a href="{{ route('product.create') }}" class="btn btn-primary mx-2">Ajouter un produit</a>
-            <button type="button" class="btn btn-danger mx-2 multipleDeleteBtn"  data-toggle="modal" data-target="#multipleDeleteModal">
-                Suppression multiple
-            </button>
-        </div>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-center">
-                        <input type="checkbox" id="selectAllColumns">
-                    </th>
-                    <th scope="col" class="text-center">Réf</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col" class="text-center">Prix</th>
-                    <th scope="col" class="text-center">État</th>
-                    <th scope="col" class="text-center">Visibilité</th>
-                    <th scope="col" class="text-center d-md-table-cell">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($productsList as $product)
-                    <tr>
-                        <td class="text-center">
-                            <input type="checkbox" value="{{$product->id}}" name="productIds[]" class="columnSelector" data-column="product-{{$product->id}}">
-                        </td>
-                        <td scope="row" class="text-center">{{$product->product_ref}}</td>
-                        <td>{{$product->name}}</td>
-                        <td class="text-center">{{$product->price}}€</td>
-                        <td class="text-center">{{strtoupper($product->state)}}</td>
-                        <td class="text-center">
-                            <span class="{{$product->is_visible ? 'text-success' : 'text-danger'}}">{{$product->is_visible ? "Publié" : "Non publié"}}</span>
-                        </td>
-                        <td class="text-center d-md-table-cell">
-                            <div class="d-flex justify-content-around">
-                                <a href="{{ route('product.edit', $product->id) }}" class="edit" title="Éditer" data-toggle="tooltip"><i class="fa-solid fa-pen-to-square text-primary"></i></a>
-                                <button id="deleteButton" type="button" data-toggle="modal" data-target="#deleteModal"  data-product-id="{{ $product->id }}" data-product-ref="{{ $product->product_ref }}">
-                                    <i class="fa-solid fa-trash text-danger"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                @endForeach
-            </tbody>
-        </table>
-    </div>
-    <div class="mt-2 mb-4">
-        {{ $productsList->links() }}
+                    <h4 class="text-title">{{ $product->name }}</h4>
+                    <p class="text-body">{{ substr($product->description, 0, 75) .( strlen($product->description) > 75 ? '...' : '' )}}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="text-title">{{ $product->price }}€</span>
+                    <a href="{{ route('product.show', $product->id) }}">
+                        <div class="card-button">
+                            <svg class="svg-icon" viewBox="0 0 20 20">
+                            <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
+                            <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
+                            <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        @endforeach
     </div>
 
+    {{ $productsList->links() }}
 
-    @include('backend.products.multipleDeleteModal')
-    @include('backend.products.deleteModal')
-
-    <script>
-        // Script pour sélectionner toutes les colonnes
-        const selectAllColumns = document.querySelector('#selectAllColumns');
-        const columnSelectors = document.querySelectorAll('.columnSelector');
-
-        selectAllColumns.addEventListener('change', () => {
-            if (selectAllColumns.checked === true) {
-                multipleDeleteBtn.classList.add('showMultipleDeleteBtn');
-            }else{
-                multipleDeleteBtn.classList.remove('showMultipleDeleteBtn');
-            }
-            let selectedLinesNumber = 0;
-            columnSelectors.forEach(selector => {
-                selector.checked = selectAllColumns.checked;
-                selectedLinesNumber++;
-            });
-            multipleDeleteBtn.innerText = `Suppression multiple (${selectedLinesNumber})`;
-        });
-
-        tbody.addEventListener('click', (event) => {
-            
-            if (event.target.className == "columnSelector") {
-                let isColumnSelected = false;
-                let selectedLinesNumber = 0;
-                columnSelectors.forEach(selector => {
-                    if (selector.checked) {
-                        isColumnSelected = true;
-                        selectedLinesNumber++;
-                    }
-                });
-                if (isColumnSelected) {
-                    multipleDeleteBtn.innerText = `Suppression multiple (${selectedLinesNumber})`;
-                    multipleDeleteBtn.classList.add('showMultipleDeleteBtn');
-                }else{
-                    multipleDeleteBtn.classList.remove('showMultipleDeleteBtn');
-                }
-            }
-        })
-    </script>
-</x-app-layout>
+</x-guest-layout>

@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductController::class, 'show']);
+Route::get('/', [ProductController::class, 'clientIndex'])->name("product.clientIndex");
+Route::get('/product/{id}', [ProductController::class, 'show'])->name("product.show");
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
