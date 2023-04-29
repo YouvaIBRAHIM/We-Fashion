@@ -80,9 +80,11 @@ class ProductController extends Controller
     /**
     * Display the specified resource.
     */
-    public function show(Product $product)
+    public function show(Product $product, $id)
     {
-        return view('client.index');
+        $product = Product::where([["is_visible", 1], ["id", $id]])->with(["categories", "sizes"])->firstorfail();
+
+        return view('client.products.product', ['product' => $product]);
     }
 
     /**
@@ -140,11 +142,11 @@ class ProductController extends Controller
         $previousCategories = $product->categories()->pluck('categories.id')->toArray();
 
         //categories à ajouter au produit
-        $newCategories = array_diff($selectCategories, $previousCategories);
+        $newCategories = array_diff((array)$selectCategories, (array)$previousCategories);
         $product->categories()->sync($newCategories, false);
 
         //categories à supprimer au produit
-        $categoriesToDelete = array_diff($previousCategories, $selectCategories);
+        $categoriesToDelete = array_diff((array)$previousCategories, (array)$selectCategories);
         $product->categories()->detach($categoriesToDelete);
 
         //Mise à jour des tailles du produit
@@ -152,11 +154,11 @@ class ProductController extends Controller
         $previousSizes = $product->sizes()->pluck('sizes.id')->toArray();
 
         //tailes à ajouter au produit
-        $newSizes = array_diff($selectSizes, $previousSizes);
+        $newSizes = array_diff((array)$selectSizes, (array)$previousSizes);
         $product->Sizes()->sync($newSizes, false);
 
         //tailles à supprimer au produit
-        $sizesToDelete = array_diff($previousSizes, $selectSizes);
+        $sizesToDelete = array_diff((array)$previousSizes, (array)$selectSizes);
         $product->sizes()->detach($sizesToDelete);
         
         return redirect("/product/$productId/edit")->with('success', "Le produit $productRef a bien été mis à jour.");

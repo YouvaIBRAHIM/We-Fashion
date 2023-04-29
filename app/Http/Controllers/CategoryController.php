@@ -52,13 +52,16 @@ class CategoryController extends Controller
      */
     public function show(Category $category, $slug)
     {
-        $productsList = Category::where("slug", $slug)
-                                    ->first()
-                                    ->products()
+        $category = Category::where("slug", $slug)->firstorfail();
+
+        $categoryName = $category->name;
+
+        $productsList = $category->products()
                                     ->with(["categories", "sizes"])
                                     ->orderBy("created_at", "desc")
                                     ->paginate(15);
-        return view('client.products.index', ['productsList' => $productsList]);
+
+        return view('client.products.index', ['productsList' => $productsList, 'categoryName' => $categoryName]);
     }
 
     /**

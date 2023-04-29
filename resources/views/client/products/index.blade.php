@@ -3,6 +3,11 @@
         <span>
             Produits trouvés : {{$productsList->total()}}
         </span>
+        @if(isset($categoryName))
+            <h3>
+                {{ $categoryName }}
+            </h3>
+        @endif
     </div>
     <div class="cards-container">
         @if($productsList->total() > 0)
@@ -12,7 +17,7 @@
                         <span class="banner"></span>
                     @endif
                     <div class="card-img">
-                        <img src="{{ url('storage', $product->image) }}" alt="" srcset="">
+                        <img src="{{ url('storage', $product->image) }}" alt="{{ $product->name }}">
                     </div>
                     <div class="sizes">
                         @foreach($product->sizes as $size)
@@ -24,14 +29,16 @@
                     <div class="card-info">
                         <div class="categories">
                             @foreach($product->categories as $category)
+                            <a href="{{ route('category.show', $category->slug) }}">
                                 <span class="category">
                                     {{ $category->name }}
                                 </span>
+                            </a>
                             @endforeach
                         </div>
 
                         <h4 class="text-title">{{ $product->name }}</h4>
-                        <p class="text-body">{{ substr($product->description, 0, 75) .( strlen($product->description) > 75 ? '...' : '' )}}</p>
+                        <p class="text-body">{{ substr($product->description, 0, 65) .( strlen($product->description) > 65 ? '...' : '' )}}</p>
                     </div>
                     <div class="card-footer">
                         <span class="text-title">{{ $product->price }}€</span>
