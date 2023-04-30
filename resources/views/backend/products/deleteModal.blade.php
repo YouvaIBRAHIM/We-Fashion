@@ -17,7 +17,7 @@
                     <form action="" method="POST" id="deleteForm">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-danger">Mettre dans la corbeille</button>
                     </form>
                 @else
                     <form action="" method="POST" id="definitiveDeleteForm">
@@ -41,22 +41,22 @@
         }
         
         const deleteModal = document.querySelector('#deleteModal');
+        const deleteForm = document.querySelector('#deleteForm');
+        const definitiveDeleteForm = document.querySelector('#definitiveDeleteForm');
 
         // récupère l'ID du produit à supprimer
         const productId = deleteButton.getAttribute('data-product-id');
         const productRef = deleteButton.getAttribute('data-product-ref');
 
-        deleteModal.querySelector('.modal-body').innerText = `Voulez-vous vraiment supprimer le produit ${productRef} ?`;
 
         // met à jour l'attribut "action" du formulaire de suppression avec l'ID du produit
-        const deleteForm = document.querySelector('#deleteForm');
         if (deleteForm) {
+            deleteModal.querySelector('.modal-body').innerText = `Voulez-vous vraiment mettre le produit ${productRef} dans la corbeille ?`;
             deleteForm.action = `/product/${productId}`;
         }
 
-        const definitiveDeleteForm = document.querySelector('#definitiveDeleteForm');
-
         if (definitiveDeleteForm) {
+            deleteModal.querySelector('.modal-body').innerText = `Voulez-vous vraiment supprimer le produit ${productRef} ?`;
             definitiveDeleteForm.action = `/productsTrash/${productId}`;
         }
 

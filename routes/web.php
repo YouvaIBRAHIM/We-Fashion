@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/multipleDefinitiveDelete', [ProductController::class, 'multipleDefinitiveDelete'])->name('product.multipleDefinitiveDelete');
     Route::get('/productsTrash', [ProductController::class, 'productsTrash'])->name('product.trash');
     Route::delete('/productsTrash/{id}', [ProductController::class, 'definitiveDestroy'])->name('product.definitiveDestroy');
+    Route::post('/productRestore/{id}', [ProductController::class, 'restore'])->name('product.restore');
+    Route::post('/multipleRestore', [ProductController::class, 'multipleRestore'])->name('product.multipleRestore');
 
     
     //Routes des catégories

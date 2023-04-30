@@ -188,6 +188,14 @@ class ProductController extends Controller
         $product->delete();
         return redirect(route("product.index"))->with('success', "Le produit $productRef a été mis dans la corbeille.");
     }
+
+    public function restore(Product $product, $id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $productRef = $product->product_ref;
+        $product->restore();
+        return redirect(route("product.trash"))->with('success', "Le produit $productRef a été restauré.");
+    }
     
     public function definitiveDestroy(Product $product, $id)
     {
@@ -210,7 +218,7 @@ class ProductController extends Controller
     public function multipleDelete(Request $request)
     {
         $productsToDelete = explode(",", $request->productIds);
-        $products = Product::whereIn('id', $productsToDelete)->delete();
+        Product::whereIn('id', $productsToDelete)->delete();
         return redirect(route("product.index"))->with('success', "Les produits sélectionnés ont bien été mis dans la corbeille.");
     }
 
@@ -224,6 +232,12 @@ class ProductController extends Controller
             $product->forceDelete();
         }
         return redirect(route("product.trash"))->with('success', "Les produits sélectionnés ont bien été supprimés.");
+    }
+
+    public function multipleRestore(Request $request)
+    {
+        Product::onlyTrashed()->whereIn('id', $request->productIds)->restore();
+        return redirect(route("product.trash"))->with('success', "Les produits sélectionnés ont bien été restaurés.");
     }
     
 }

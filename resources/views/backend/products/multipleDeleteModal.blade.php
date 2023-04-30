@@ -9,7 +9,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                Voulez-vous vraiment supprimer le/les produit.s sélectionné.s ?
+                @if (!$isTrashView)
+                    Voulez-vous vraiment mettre le/les produit.s sélectionné.s dans la corbeille ?
+                @else
+                    Voulez-vous vraiment supprimer le/les produit.s sélectionné.s ?
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -18,7 +22,7 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="productIds" id="productIds">
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-danger">Mettre dans la corbeille</button>
                     </form>
                 @else
                     <form method="POST" action="{{ route('product.multipleDefinitiveDelete') }}" id="multipleDeleteForm">
