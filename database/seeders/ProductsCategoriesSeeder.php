@@ -18,9 +18,12 @@ class ProductsCategoriesSeeder extends Seeder
     {
         $products = Product::all();
         foreach ($products as $product) {
+            $productId = $product->id;
+            $productRef = 'ART' . str_pad($productId, 6, '0', STR_PAD_LEFT);
+
             $category = Category::inRandomOrder()->first();
 
-            DB::table('products_catigories')->insert([
+            DB::table('products_categories')->insert([
                 'product_id' => $product->id,
                 'category_id' => $category->id,
             ]);
@@ -38,7 +41,8 @@ class ProductsCategoriesSeeder extends Seeder
             $image = $images[array_rand($images)];
 
             $product->update([
-                "image" => $image
+                "image" => str_replace("public", "",$image),
+                'product_ref' => $productRef
             ]);
         }
     }

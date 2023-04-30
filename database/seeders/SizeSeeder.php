@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ProductSizeSeeder extends Seeder
+class SizeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,7 +21,7 @@ class ProductSizeSeeder extends Seeder
             "XL"
         ];
         foreach ($sizes as $size) {
-            DB::table('product_sizes')->insert([
+            DB::table('sizes')->insert([
                 "size" => $size,
                 "created_at" => now(),
                 "updated_at" => now()
