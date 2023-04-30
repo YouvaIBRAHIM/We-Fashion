@@ -1,18 +1,20 @@
 
 <div class="card">
-    @if($product->state == "en solde")
-        <span class="banner"></span>
-    @endif
-    <div class="card-img">
-        <img src="{{ url('storage', $product->image) }}" alt="{{ $product->name }}">
-    </div>
-    <div class="sizes">
-        @foreach($product->sizes as $size)
+    <a href="{{ route('product.show', $product->id) }}" style="display: block!important;">
+        @if($product->state == "en solde")
+            <span class="banner"></span>
+        @endif
+        <div class="card-img">
+            <img src="{{ url('storage', $product->image) }}" alt="{{ $product->name }}">
+        </div>
+        <div class="sizes">
+            @foreach($product->sizes as $size)
             <div class="size">
                 {{$size->size}}
             </div>
-        @endforeach
-    </div>
+            @endforeach
+        </div>
+    </a>
     <div class="card-info">
         <div class="categories">
             @foreach($product->categories as $category)
@@ -23,9 +25,11 @@
             </a>
             @endforeach
         </div>
-
-        <h4 class="text-title">{{ $product->name }}</h4>
-        <p class="text-body">{{ substr($product->description, 0, 65) .( strlen($product->description) > 65 ? '...' : '' )}}</p>
+        
+        <a href="{{ route('product.show', $product->id) }}" style="display: block!important;">
+            <h4 class="text-title">{{ $product->name }}</h4>
+            <p class="text-body">{{ substr($product->description, 0, 65) .( strlen($product->description) > 65 ? '...' : '' )}}</p>
+        </a>
     </div>
     <div class="card-footer">
         <span class="text-title">{{ $product->price }}€</span>

@@ -477,7 +477,9 @@ a {
   flex-direction: column;
   justify-content: space-between;
 }
-
+.card a {
+  color: #333;
+}
 .card .banner, .productContainer .banner {
   position: absolute;
   overflow: hidden;

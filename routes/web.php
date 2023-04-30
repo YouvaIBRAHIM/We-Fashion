@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+// Routes partie administration
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+// Routes partie client
 Route::get('/', [ProductController::class, 'clientIndex'])->name("product.clientIndex");
 Route::get('/product/{id}', [ProductController::class, 'show'])->name("product.show");
 Route::get('/soldes', [ProductController::class, 'clientPromotionsIndex'])->name("product.promotions");
