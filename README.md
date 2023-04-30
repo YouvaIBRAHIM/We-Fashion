@@ -13,19 +13,20 @@ Bienvenue sur le projet We Fashion, une plateforme de e-commerce pour la vente d
 2. Naviguez dans le dossier du projet : `cd We-Fashion`
 3. Installez les dépendances : `composer install`
 4. Installez les dépendances JS : `npm install`
-5. Créez une copie du fichier `.env.example` en `.env` : `cp .env.example .env`
-6. Configurez les informations de votre base de données dans le fichier `.env`
-7. Lancez votre serveur avec MySQL
-8. Générez une clé d'application : `php artisan key:generate`
-9. Lancez les migrations : `php artisan migrate`
-10. Remplissez la base de données avec les données de test : `php artisan db:seed`
-11. Établir un raccourci du répertoire `storage` dans le répertoire `public` : `php artisan storage:link`
-12. Lancez le serveur : `php artisan serve`
-13. Pour que les catégories soient accéssibles sur toutes les pages de la navigation, il faudra décommenter le code de la méthode `boot` dans le fichier `\app\Providers\AppServiceProvider.php` (lignes 26 et 27)
+5. Générer une version de production avec `npm run build` ou lancez la version de développement avec `npm run dev`
+6. Créez une copie du fichier `.env.example` en `.env` : `cp .env.example .env`
+7. Configurez les informations de votre base de données dans le fichier `.env`
+8. Lancez votre serveur avec MySQL
+9. Générez une clé d'application : `php artisan key:generate`
+10. Lancez les migrations : `php artisan migrate`
+11. Remplissez la base de données avec les données de test : `php artisan db:seed`
+12. Établir un raccourci du répertoire `storage` dans le répertoire `public` : `php artisan storage:link`
+13. Lancez le serveur : `php artisan serve`
+14. Pour que les catégories soient accéssibles sur toutes les pages de la navigation, il faudra décommenter le code de la méthode `boot` dans le fichier `\app\Providers\AppServiceProvider.php` (lignes 26 et 27)
 
 ![Diagramme de la base de données](/images/AppServiceProvider.jpeg)
 
-14. Ouvrez votre navigateur web et accédez à l'adresse `http://localhost:8000`
+15. Ouvrez votre navigateur web et accédez à l'adresse `http://localhost:8000`
 
 
 Félicitations, le projet We Fashion est maintenant lancé sur votre machine !
