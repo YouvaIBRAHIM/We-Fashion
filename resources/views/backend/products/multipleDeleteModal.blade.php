@@ -13,12 +13,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <form method="POST" action="{{ route('product.multipleDelete') }}" id="multipleDeleteForm">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="productIds" id="productIds">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </form>
+                @if (!$isTrashView)
+                    <form method="POST" action="{{ route('product.multipleDelete') }}" id="multipleDeleteForm">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="productIds" id="productIds">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                @else
+                    <form method="POST" action="{{ route('product.multipleDefinitiveDelete') }}" id="multipleDeleteForm">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="productIds" id="productIds">
+                        <button type="submit" class="btn btn-danger">Supprimer définitivement</button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

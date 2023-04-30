@@ -26,6 +26,9 @@ Route::middleware('auth')->group(function () {
     //Routes des produits
     Route::resource('product', 'App\Http\Controllers\ProductController')->except(['show']);
     Route::delete('/multipleDeleteProducts', [ProductController::class, 'multipleDelete'])->name('product.multipleDelete');
+    Route::delete('/multipleDefinitiveDelete', [ProductController::class, 'multipleDefinitiveDelete'])->name('product.multipleDefinitiveDelete');
+    Route::get('/productsTrash', [ProductController::class, 'productsTrash'])->name('product.trash');
+    Route::delete('/productsTrash/{id}', [ProductController::class, 'definitiveDestroy'])->name('product.definitiveDestroy');
 
     
     //Routes des catégories

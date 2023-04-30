@@ -6,6 +6,7 @@
         .showMultipleDeleteBtn{
             display: flex!important;
         }
+        
     </style>
 
     <ol class="breadcrumb mb-4">
@@ -31,11 +32,14 @@
         </div>
     @endif
 
-        <div class="d-flex justify-content-start my-2">
-            <a href="{{ route('product.create') }}" class="btn btn-primary mx-2">Ajouter un produit</a>
-            <button type="button" class="btn btn-danger mx-2 multipleDeleteBtn"  data-toggle="modal" data-target="#multipleDeleteModal">
-                Suppression multiple
-            </button>
+        <div class="d-flex justify-content-start my-2 btnContainer">
+            @if (!$isTrashView)
+                <a href="{{ route('product.create') }}" class="btn btn-primary mx-2">Ajouter un produit</a>
+                <a href="{{ route('product.trash') }}" class="btn btn-secondary mx-2">Corbeille</a>
+            @endif
+                <button type="button" class="btn btn-danger mx-2 multipleDeleteBtn"  data-toggle="modal" data-target="#multipleDeleteModal">
+                    Suppression multiple
+                </button>
         </div>
     <div class="table-responsive">
         <table class="table">
@@ -67,7 +71,9 @@
                         </td>
                         <td class="text-center d-md-table-cell">
                             <div class="d-flex justify-content-around">
+                            @if (!$isTrashView)
                                 <a href="{{ route('product.edit', $product->id) }}" class="edit" title="Éditer" data-toggle="tooltip"><i class="fa-solid fa-pen-to-square text-primary"></i></a>
+                            @endif
                                 <button id="deleteButton" type="button" data-toggle="modal" data-target="#deleteModal"  data-product-id="{{ $product->id }}" data-product-ref="{{ $product->product_ref }}">
                                     <i class="fa-solid fa-trash text-danger"></i>
                                 </button>

@@ -3769,6 +3769,8 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 .navbar > .container,
 .navbar > .container-fluid,
@@ -8316,6 +8318,102 @@ textarea.form-control-lg {
   visibility: hidden !important;
 }
 
+
+
+ul.pagination {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+ul.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+ul.pagination li a,
+ul.pagination li span {
+  display: block;
+  padding: 5px 10px;
+  color: #333;
+  background-color: #fff;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+ul.pagination li a:hover {
+  background-color: #f0f0f0;
+}
+
+ul.pagination li.active span {
+  background-color: #66EB9A;
+  color: #fff;
+  border-color: #66EB9A;
+}
+
+ul.pagination li.disabled span {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+.nav-header {
+  display: inline;
+  height: 65px;
+}
+
+.nav-header > .nav-title{
+  display: inline-block;
+  font-size: 32px;
+  font-weight: 900;
+  color: #66EB9A;
+  padding: 10px 30px 0 30px;
+}
+.nav-header > .nav-title span{
+  color: #66EB9A;
+}
+
+.sidebarToggle{
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  color: #66EB9A;
+  font-size: 32px;
+  z-index: 2000;
+  text-decoration: none!important;
+}
+.sidebarToggle:focus, .sidebarToggle:hover  {
+  color: #66EB9A!important;
+}
+.sidebarToggle:focus {
+  outline: none!important;
+  box-shadow: none!important;
+  text-decoration: none!important;
+}
+
+.userBtn{
+  color: #66EB9A;
+  font-size: 28px;
+  position: relative;
+  right: 25px;
+
+}
+.userDropdown{
+  position: relative;
+  right: 25px;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.btnContainer{
+  height: 40px;
+}
 @media (min-width: 576px) {
   .float-sm-start {
     float: left !important;
@@ -10850,13 +10948,23 @@ body {
 .navbar{
   position: fixed;
   width: 100%;
-  z-index: 5;
   padding: 0;
+  z-index: 2001;
 }
 
 .navbar .content{
   width: 100%;
+  padding: 0!important;
+  margin: 0!important;
 }
+.navbar .content .navBaritems{
+  width: 100%!important;
+
+  display: flex!important;
+  justify-content: space-between!important;
+  align-items: center!important;
+}
+
 #layoutAuthentication {
   display: flex;
   flex-direction: column;

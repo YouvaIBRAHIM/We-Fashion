@@ -17,8 +17,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productsList = Product::orderBy("created_at", "desc")->paginate(6);
-        return view('backend.products.index', ['productsList' => $productsList]);
+        $productsList = Product::orderBy("created_at", "desc")->paginate(15);
+        return view('backend.products.index', ['productsList' => $productsList, 'isTrashView' => false]);
+    }
+
+    public function productsTrash()
+    {
+        $productsList = Product::onlyTrashed()->orderBy("created_at", "desc")->paginate(15);
+        return view('backend.products.index', ['productsList' => $productsList, 'isTrashView' => true]);
     }
 
     public function clientIndex()
@@ -27,7 +33,6 @@ class ProductController extends Controller
         return view('client.products.index', ['productsList' => $productsList]);
     }
 
-    
     public function clientPromotionsIndex()
     {
         $categoryName = "Soldes";
@@ -180,14 +185,24 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $productRef = $product->product_ref;
-        $this->deletePreviousImage($product->image);
         $product->delete();
-        return redirect(route("product.index"))->with('success', "Le produit $productRef a bien été supprimé.");
+        return redirect(route("product.index"))->with('success', "Le produit $productRef a été mis dans la corbeille.");
+    }
+    
+    public function definitiveDestroy(Product $product, $id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $productRef = $product->product_ref;
+        $this->deletePreviousImage($product->image);
+        $product->forceDelete();
+        return redirect(route("product.trash"))->with('success', "Le produit $productRef a été supprimé.");
     }
 
     public function deletePreviousImage(String $productImage)
     {
-        if (Storage::exists("public/$productImage")) {
+        // vérifie si l'image existe dans le repertoire et si ce n'est pas une image provenant des dossiers Hommes et Femmes
+        //Dans le cadre des tests, d'autres produits se partagent les memes images. Par conséquent, certains produits n'auront plus d'image
+        if (Storage::exists("public/$productImage") && !preg_match("#\b(hommes|femmes)\b#",$productImage)) {
             Storage::delete("public/$productImage");
         }
     }
@@ -195,11 +210,20 @@ class ProductController extends Controller
     public function multipleDelete(Request $request)
     {
         $productsToDelete = explode(",", $request->productIds);
-        $products = Product::whereIn('id', $productsToDelete)->get();
+        $products = Product::whereIn('id', $productsToDelete)->delete();
+        return redirect(route("product.index"))->with('success', "Les produits sélectionnés ont bien été mis dans la corbeille.");
+    }
+
+    public function multipleDefinitiveDelete(Request $request)
+    {
+
+        $productsToDelete = explode(",", $request->productIds);
+        $products = Product::onlyTrashed()->whereIn('id', $productsToDelete)->get();
         foreach ($products as $product) {
             $this->deletePreviousImage($product->image);
-            $product->delete();
+            $product->forceDelete();
         }
-        return redirect(route("product.index"))->with('success', "Les produits sélectionnés ont bien été supprimés.");
+        return redirect(route("product.trash"))->with('success', "Les produits sélectionnés ont bien été supprimés.");
     }
+    
 }

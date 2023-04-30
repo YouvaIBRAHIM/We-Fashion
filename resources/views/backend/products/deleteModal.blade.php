@@ -13,11 +13,19 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <form action="" method="POST" id="deleteForm">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </form>
+                @if (!$isTrashView)
+                    <form action="" method="POST" id="deleteForm">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                @else
+                    <form action="" method="POST" id="definitiveDeleteForm">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Supprimer définitivement</button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -37,11 +45,20 @@
         // récupère l'ID du produit à supprimer
         const productId = deleteButton.getAttribute('data-product-id');
         const productRef = deleteButton.getAttribute('data-product-ref');
+
         deleteModal.querySelector('.modal-body').innerText = `Voulez-vous vraiment supprimer le produit ${productRef} ?`;
 
         // met à jour l'attribut "action" du formulaire de suppression avec l'ID du produit
         const deleteForm = document.querySelector('#deleteForm');
-        deleteForm.action = `/product/${productId}`;
+        if (deleteForm) {
+            deleteForm.action = `/product/${productId}`;
+        }
+
+        const definitiveDeleteForm = document.querySelector('#definitiveDeleteForm');
+
+        if (definitiveDeleteForm) {
+            definitiveDeleteForm.action = `/productsTrash/${productId}`;
+        }
 
         // ouvre le modal de confirmation de suppression
         deleteModal.classList.add('show');

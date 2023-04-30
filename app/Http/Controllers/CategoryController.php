@@ -60,7 +60,7 @@ class CategoryController extends Controller
                                     ->where("is_visible", 1)
                                     ->with(["categories", "sizes"])
                                     ->orderBy("created_at", "desc")
-                                    ->paginate(15);
+                                    ->paginate(6);
 
         return view('client.products.index', ['productsList' => $productsList, 'categoryName' => $categoryName]);
     }
