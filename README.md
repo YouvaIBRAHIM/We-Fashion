@@ -31,3 +31,7 @@ Félicitations, le projet We Fashion est maintenant lancé sur votre machine !
 
 ## Corbeille
 Un système de corbeille a été ajouté pour les produits. Dans la corbeille, il est possible de supprimer définitivement les produits ou de les restaurer.
+
+### Voici le schéma de la base de données utilisée dans le projet :
+
+![Diagramme de la base de données](/images/wefashion_db_diagram.jpeg)

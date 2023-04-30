@@ -138,7 +138,6 @@ class ProductController extends Controller
 
     /**
      * Mise à jour d'un produit
-     *
      * App\Http\Requests\ProductRequest Class de validation du formulaire de modification du produit
      */
     public function update(ProductRequest $request, Product $product)
