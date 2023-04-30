@@ -77,7 +77,7 @@ class ProductController extends Controller
             'image' => $request->image,
             'is_visible' => filter_var($request->isVisible, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             'state' => $request->state,
-            'product_ref' => "tmp_ref"
+            'product_ref' => uniqid()
         ]);
 
         $newProductId = $newProduct->id;

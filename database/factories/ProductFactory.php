@@ -24,7 +24,7 @@ class ProductFactory extends Factory
                 'image' => fake()->imageUrl(640, 480, 'products', true),
                 'is_visible' => fake()->randomElement([true, false]),
                 'state' => fake()->randomElement(['en solde', 'standard']),
-                'product_ref' => fake()->unique()->regexify('ART[0-9]{6}'),
+                'product_ref' => fake()->unique()->regexify('REF[0-9]{13}'),
                 "created_at" => now(),
                 "updated_at" => now()
             ];

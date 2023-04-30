@@ -14,6 +14,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        //création de 80 faux produits avec la factory Database\Factories\ProductFactory
         Product::factory(80)->create();
     }
 }

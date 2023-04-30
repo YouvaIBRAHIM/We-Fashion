@@ -1,17 +1,4 @@
-<style>
-    .box{
-        width: 100%;
-        height: 100%;
-        max-height: 450px;
-        position: relative;
-    }
 
-    .box img{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-</style>
 <div>
     @if (\Session::has('success'))
         <div class="alert alert-success alert-dismissible">
