@@ -20,7 +20,11 @@ Bienvenue sur le projet We Fashion, une plateforme de e-commerce pour la vente d
 9. Lancez les migrations : `php artisan migrate`
 10. Remplissez la base de données avec les données de test : `php artisan db:seed`
 11. Lancez le serveur : `php artisan serve`
-12. Ouvrez votre navigateur web et accédez à l'adresse `http://localhost:8000`
+12. Pour que les catégories soient accéssibles sur toutes les pages de la navigation, il faudra décommenter le code de la méthode `boot` dans le fichier `\app\Providers\AppServiceProvider.php` (lignes 26 et 27)
+
+![Diagramme de la base de données](/images/AppServiceProvider.jpeg)
+
+13. Ouvrez votre navigateur web et accédez à l'adresse `http://localhost:8000`
 
 
 Félicitations, le projet We Fashion est maintenant lancé sur votre machine !
