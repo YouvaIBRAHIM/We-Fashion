@@ -22,7 +22,7 @@ Bienvenue sur le projet We Fashion, une plateforme de e-commerce pour la vente d
 11. Remplissez la base de données avec les données de test : `php artisan db:seed`
 12. Établir un raccourci du répertoire `storage` dans le répertoire `public` : `php artisan storage:link`
 13. Lancez le serveur : `php artisan serve`
-14. Pour que les catégories soient accéssibles sur toutes les pages de la navigation, il faudra décommenter le code de la méthode `boot` dans le fichier `\app\Providers\AppServiceProvider.php` (lignes 26 et 27)
+14. Pour que les catégories soient accéssibles sur toutes les pages de la navigation, il faudra décommenter le code de la méthode `boot` dans le fichier `\app\Providers\AppServiceProvider.php` (lignes 27 et 28)
 
 ![Diagramme de la base de données](/images/AppServiceProvider.jpeg)
 

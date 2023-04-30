@@ -729,7 +729,7 @@ ul.pagination li.disabled span {
   padding-top: 15px;
 }
 .formContainer .form {
-  width: 450px;
+  width: 350px;
   height: 300px;
   display: flex;
   flex-direction: column;

@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
+        // Récupère les catégories pour quelles soient accessibles sur toutes les views
         // $categories = Category::all();
         // View::share('categories', $categories);
     }
