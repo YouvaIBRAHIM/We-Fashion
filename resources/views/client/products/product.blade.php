@@ -1,3 +1,5 @@
+@section('title', 'WeFashion - ' . $product->name)
+
 <x-guest-layout>
     <div class="productContainer">
 

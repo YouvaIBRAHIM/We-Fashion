@@ -1,3 +1,5 @@
+@section('title', 'Édition du produit ' . $product->product_ref . ' - WeFashion')
+
 <x-app-layout>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active"><a href="{{ route('product.index') }}">Produits</a></li>

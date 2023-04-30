@@ -1,3 +1,4 @@
+@section('title', 'Nouveau produit - WeFashion')
 <x-app-layout>
     <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active"><a href="{{ route('product.index') }}">Produits</a></li>

@@ -1,3 +1,5 @@
+@section('title', $isTrashView ? 'Corbeille des produits - WeFashion' : 'Liste des produits - WeFashion')
+
 <x-app-layout>
     @if ($isTrashView)
         <ol class="breadcrumb mt-3">
