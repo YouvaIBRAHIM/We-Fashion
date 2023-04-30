@@ -1,3 +1,5 @@
+@section('title', 'Nouvelle catégorie - WeFashion')
+
 <x-app-layout>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active"><a href="{{ route('category.index') }}">Catégories</a></li>

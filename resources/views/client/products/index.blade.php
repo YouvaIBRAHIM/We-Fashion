@@ -1,3 +1,5 @@
+@section('title', isset($categoryName) ? 'WeFashion - Produits ' . $categoryName : 'WeFashion - Tous les produits')
+
 <x-guest-layout>
     <div class="productsFound">
         <span>
