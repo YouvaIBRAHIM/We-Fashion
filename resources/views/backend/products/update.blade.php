@@ -3,7 +3,7 @@
         <li class="breadcrumb-item active"><a href="{{ route('product.index') }}">Produits</a></li>
         <li class="breadcrumb-item active">Fiche</li>
     </ol>
-    <h3 class="mt-4">Fiche produit</h3>
+    <h3 class="mt-4">Fiche produit {{ $product->product_ref }}</h3>
     
     @include('backend.products.form')
 </x-app-layout>

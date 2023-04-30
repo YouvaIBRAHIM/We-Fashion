@@ -13,26 +13,35 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+    * Affiche la view des produits coté administration
+    */
     public function index()
     {
         $productsList = Product::orderBy("created_at", "desc")->paginate(15);
         return view('backend.products.index', ['productsList' => $productsList, 'isTrashView' => false]);
     }
 
+    /**
+    * Affiche la view des produits dans la corbeille coté administration
+    */
     public function productsTrash()
     {
         $productsList = Product::onlyTrashed()->orderBy("created_at", "desc")->paginate(15);
         return view('backend.products.index', ['productsList' => $productsList, 'isTrashView' => true]);
     }
 
+    /**
+    * Affiche la view des produits coté client
+    */
     public function clientIndex()
     {
         $productsList = Product::where("is_visible", 1)->with(["categories", "sizes"])->orderBy("created_at", "desc")->paginate(6);
         return view('client.products.index', ['productsList' => $productsList]);
     }
 
+    /**
+    * Affiche la view des produits en solde coté client
+    */
     public function clientPromotionsIndex()
     {
         $categoryName = "Soldes";
@@ -41,8 +50,8 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
+    * Affiche la view d'un formulaire de création d'un produit coté administration
+    */
     public function create()
     {
         $categories = Category::all();
@@ -51,7 +60,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Enregistre un nouveau produit
+     *
+     * App\Http\Requests\ProductRequest Class de validation du formulaire d'ajout d'un produit
      */
     public function store(ProductRequest $request)
     {
@@ -66,11 +77,11 @@ class ProductController extends Controller
             'image' => $request->image,
             'is_visible' => filter_var($request->isVisible, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             'state' => $request->state,
-            'product_ref' => "tmp_ref"
+            'product_ref' => uniqid()
         ]);
 
         $newProductId = $newProduct->id;
-        $newProductRef = 'ART' . str_pad($newProductId, 6, '0', STR_PAD_LEFT);
+        $newProductRef = 'REF' . str_pad($newProductId, 13, '0', STR_PAD_LEFT);
 
         $storageFolder = "products_images/$newProductRef";
 
@@ -91,10 +102,11 @@ class ProductController extends Controller
     }
 
     /**
-    * Display the specified resource.
+    * Affiche la view d'un produit coté client
     */
     public function show(Product $product, $id)
     {
+
         $product = Product::where([ ["id", $id]])->with(["categories", "sizes"])->firstorfail();
 
         $otherProducts = Product::where([["is_visible", 1], ["id", "<>", $id]])->with(["categories", "sizes"])->inRandomOrder()->take(10)->get();
@@ -102,11 +114,14 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Affiche la view d'un formulaire d'edition d'un produit coté administration
      */
     public function edit(Product $product)
     {
+        // récupération des id des categories du produit à editer
         $productCategories = $product->categories()->pluck('categories.id')->toArray();
+
+        // récupération des id des tailles du produit à editer
         $productSizes = $product->sizes()->pluck('sizes.id')->toArray();
 
         $categories = Category::all();
@@ -122,12 +137,13 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mise à jour d'un produit
+     *
+     * App\Http\Requests\ProductRequest Class de validation du formulaire de modification du produit
      */
     public function update(ProductRequest $request, Product $product)
     {
         $productRef = $product->product_ref;
-        $productId = $product->id;
 
         $product->update([
             'name' => $request->name,
@@ -140,15 +156,14 @@ class ProductController extends Controller
         //stockage et mise à jour de l'image du produit si une nouvelle image a été selectionnée
         if ($selectedImage = $request->file('image')) {
             $previousImage = $product->image;
-            
-            // supprime l'ancienne image
-            $this->deletePreviousImage($previousImage);
 
             $storageFolder = "products_images/$productRef";
             $path = Storage::disk('public')->putFile($storageFolder, $selectedImage);
-            $product->update([
+            $product->updateOrFail([
                 "image" => $path
             ]);
+            // supprime l'ancienne image
+            $this->deleteImage($previousImage);
         }
 
         //Mise à jour des categories du produit
@@ -180,7 +195,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Met un produit dans la corbeille
      */
     public function destroy(Product $product)
     {
@@ -188,33 +203,22 @@ class ProductController extends Controller
         $product->delete();
         return redirect(route("product.index"))->with('success', "Le produit $productRef a été mis dans la corbeille.");
     }
-
-    public function restore(Product $product, $id)
-    {
-        $product = Product::withTrashed()->findOrFail($id);
-        $productRef = $product->product_ref;
-        $product->restore();
-        return redirect(route("product.trash"))->with('success', "Le produit $productRef a été restauré.");
-    }
     
+    /**
+     * Supprime définitivement un produit depuis la corbeille
+    */
     public function definitiveDestroy(Product $product, $id)
     {
         $product = Product::withTrashed()->findOrFail($id);
         $productRef = $product->product_ref;
-        $this->deletePreviousImage($product->image);
+        $this->deleteImage($product->image);
         $product->forceDelete();
         return redirect(route("product.trash"))->with('success', "Le produit $productRef a été supprimé.");
     }
 
-    public function deletePreviousImage(String $productImage)
-    {
-        // vérifie si l'image existe dans le repertoire et si ce n'est pas une image provenant des dossiers Hommes et Femmes
-        //Dans le cadre des tests, d'autres produits se partagent les memes images. Par conséquent, certains produits n'auront plus d'image
-        if (Storage::exists("public/$productImage") && !preg_match("#\b(hommes|femmes)\b#",$productImage)) {
-            Storage::delete("public/$productImage");
-        }
-    }
-
+    /**
+     * Met plusieurs produits dans la corbeille
+    */
     public function multipleDelete(Request $request)
     {
         $productsToDelete = explode(",", $request->productIds);
@@ -222,22 +226,52 @@ class ProductController extends Controller
         return redirect(route("product.index"))->with('success', "Les produits sélectionnés ont bien été mis dans la corbeille.");
     }
 
+    /**
+     * Supprime définitivement plusieurs produits
+    */
     public function multipleDefinitiveDelete(Request $request)
     {
 
         $productsToDelete = explode(",", $request->productIds);
         $products = Product::onlyTrashed()->whereIn('id', $productsToDelete)->get();
         foreach ($products as $product) {
-            $this->deletePreviousImage($product->image);
+            $this->deleteImage($product->image);
             $product->forceDelete();
         }
         return redirect(route("product.trash"))->with('success', "Les produits sélectionnés ont bien été supprimés.");
     }
 
+    
+    /**
+     * Restaure un produit de la corbeille
+    */
+    public function restore(Product $product, $id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $productRef = $product->product_ref;
+        $product->restore();
+        return redirect(route("product.trash"))->with('success', "Le produit $productRef a été restauré.");
+    }
+
+    /**
+     * Restaure plusieurs produits de la corbeille
+    */
     public function multipleRestore(Request $request)
     {
         Product::onlyTrashed()->whereIn('id', $request->productIds)->restore();
         return redirect(route("product.trash"))->with('success', "Les produits sélectionnés ont bien été restaurés.");
+    }
+
+    /**
+     * Supprime du serveur l'image d'un produit
+    */
+    public function deleteImage(String $productImage)
+    {
+        // vérifie si l'image existe dans le repertoire et si ce n'est pas une image provenant des dossiers Hommes et Femmes
+        //Dans le cadre des tests, d'autres produits se partagent les memes images. Par conséquent, certains produits n'auront plus d'image
+        if (Storage::exists("public/$productImage") && !preg_match("#\b(hommes|femmes)\b#",$productImage)) {
+            Storage::delete("public/$productImage");
+        }
     }
     
 }

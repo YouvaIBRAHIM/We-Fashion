@@ -1,14 +1,4 @@
 <x-app-layout>
-    <style>
-        .multipleDeleteBtn, .multipleRestorationBtn{
-            display: none;
-        }
-        .showMultipleDeleteBtn, .showMultipleRestorationBtn{
-            display: flex!important;
-        }
-        
-    </style>
-
     @if ($isTrashView)
         <ol class="breadcrumb mt-3">
         <li class="breadcrumb-item active"><a href="{{ route('product.index') }}">Produits</a></li>
@@ -84,7 +74,6 @@
                                 </div>
                             </td>
                             <td class="text-center" style="width: 250px;">
-                                <!-- <span class="{{$product->is_visible ? 'text-success' : 'text-danger'}}">{{$product->is_visible ? "Publié" : "Non publié"}}</span> -->
                                 <div class="categories">
                                     @foreach($product->categories->take(3) as $category)
                                     <a href="{{ route('category.edit', $category->id) }}" target="_blank">

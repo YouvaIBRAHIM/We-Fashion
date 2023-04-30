@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="multipleDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -45,6 +44,7 @@
         const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
 
         const selectedIds = [];
+        // recupération des id des products sélectionnés
         selectedRows.forEach(function(row) {
             selectedIds.push(row.value);
         });

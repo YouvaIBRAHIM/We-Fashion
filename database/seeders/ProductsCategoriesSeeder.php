@@ -19,7 +19,7 @@ class ProductsCategoriesSeeder extends Seeder
         $products = Product::all();
         foreach ($products as $product) {
             $productId = $product->id;
-            $productRef = 'ART' . str_pad($productId, 6, '0', STR_PAD_LEFT);
+            $productRef = 'REF' . str_pad($productId, 13, '0', STR_PAD_LEFT);
 
             $category = Category::inRandomOrder()->first();
 
