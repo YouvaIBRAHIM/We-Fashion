@@ -34,7 +34,7 @@ class CategoryController extends Controller
     {
         
         $category = Category::firstOrCreate([
-            'name' => $request->name,
+            'name' => ucfirst($request->name),
             'slug' => Str::slug($request->name, '-'),
         ]);
 
@@ -53,7 +53,7 @@ class CategoryController extends Controller
     public function show(Category $category, $slug)
     {
         $category = Category::where("slug", $slug)->firstorfail();
-
+        
         $categoryName = $category->name;
 
         $productsList = $category->products()
@@ -85,7 +85,7 @@ class CategoryController extends Controller
 
         if ($previousCategoryName !== $request->name) {
             $category->update([
-                'name' => $request->name,
+                'name' => ucfirst($request->name),
                 'slug' => Str::slug($request->name, '-')
             ]);
     

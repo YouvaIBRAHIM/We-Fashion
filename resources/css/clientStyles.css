@@ -789,6 +789,77 @@ ul.pagination li.disabled span {
 
 
 
+
+footer{
+	background: #66EB9A;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: center;
+	padding: 30px 50px;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer h3{
+    font-size: 28px;
+    color: #333
+}
+
+footer .footer-left,
+footer .footer-center,
+footer .footer-right{
+	display: inline-block;
+	vertical-align: top;
+    width: 250px;
+    height: 220px;
+}
+
+footer .footer-link{
+	color:  #ffffff;
+	margin: 20px 0 12px;
+	padding: 0;
+}
+
+footer .footer-link a{
+	display:inline-block;
+  font-weight:700;
+  font-size: 16px;
+	text-decoration: none;
+	color:  inherit;
+}
+
+footer .footer-icons{
+	width: 35px;
+	height: 35px;
+	cursor: pointer;
+	font-size: 20px;
+	color: #ffffff;
+	text-align: center;
+	margin: 0 10px;
+}
+
+
+@media (max-width: 880px) {
+
+	footer{
+		font: bold 14px sans-serif;
+        flex-direction: column;
+	}
+
+	footer .footer-left,
+	footer .footer-center,
+	footer .footer-right{
+		display: block;
+		width: 100%;
+		margin-bottom: 40px;
+		text-align: center;
+	}
+}
+
+
 @media (max-width:860px) {
   .nav > .nav-btn {
     display: inline-block;

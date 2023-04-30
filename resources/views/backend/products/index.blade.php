@@ -11,7 +11,7 @@
 
     @if ($isTrashView)
         <ol class="breadcrumb mt-3">
-            <li class="breadcrumb-item active">Produits</li>
+        <li class="breadcrumb-item active"><a href="{{ route('product.index') }}">Produits</a></li>
             <li class="breadcrumb-item active">Corbeille</li>
         </ol>
     @endif
@@ -65,7 +65,7 @@
                         <th scope="col">Nom</th>
                         <th scope="col" class="text-center">Prix</th>
                         <th scope="col" class="text-center">État</th>
-                        <th scope="col" class="text-center">Visibilité</th>
+                        <th scope="col" class="text-center" style="width: 250px;">Catégories</th>
                         <th scope="col" class="text-center d-md-table-cell">Actions</th>
                     </tr>
                 </thead>
@@ -78,9 +78,22 @@
                             <td scope="row" class="text-center">{{$product->product_ref}}</td>
                             <td>{{$product->name}}</td>
                             <td class="text-center">{{$product->price}}€</td>
-                            <td class="text-center">{{strtoupper($product->state)}}</td>
                             <td class="text-center">
-                                <span class="{{$product->is_visible ? 'text-success' : 'text-danger'}}">{{$product->is_visible ? "Publié" : "Non publié"}}</span>
+                                <div class="alert {{$product->state == 'standard' ? 'alert-primary' : 'alert-warning'}} p-2 mb-0">
+                                    {{strtoupper($product->state)}}
+                                </div>
+                            </td>
+                            <td class="text-center" style="width: 250px;">
+                                <!-- <span class="{{$product->is_visible ? 'text-success' : 'text-danger'}}">{{$product->is_visible ? "Publié" : "Non publié"}}</span> -->
+                                <div class="categories">
+                                    @foreach($product->categories->take(3) as $category)
+                                    <a href="{{ route('category.edit', $category->id) }}" target="_blank">
+                                        <span class="category">
+                                            {{ $category->name }}
+                                        </span>
+                                    </a>
+                                    @endforeach
+                                </div>
                             </td>
                             <td class="text-center d-md-table-cell">
                                 <div class="d-flex justify-content-around">

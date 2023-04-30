@@ -96,6 +96,10 @@
             @endforeach
         </div>
     </div>
+
+    @include('layouts.footer')
+
+
     <script>
         
         function dropDownSizeSelector() {

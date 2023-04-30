@@ -25,4 +25,5 @@
 
     {{ $productsList->links() }}
 
+    @include('layouts.footer')
 </x-guest-layout>
