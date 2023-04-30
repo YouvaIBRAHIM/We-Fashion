@@ -10,17 +10,18 @@ use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affiche la liste de categories
      */
     public function index()
     {
+        // la methode withCount récupète le nombre de produits par catégorie et la stocke dans la clé products_count
         $categoriesList = Category::withCount('products')->orderBy("created_at", "desc")->paginate(15);
 
         return view('backend.categories.index', ['categoriesList' => $categoriesList]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Affiche le formulaire de création d'une nouvelle categorie
      */
     public function create()
     {
@@ -28,11 +29,13 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Ajoute une nouvelle catégorie
+     *
+     * App\Http\Requests\CategoryRequest Class de validation du formulaire d'ajout d'une catégorie
      */
     public function store(CategoryRequest $request)
     {
-        
+        // vérifie si la catégorie existe déjà. Si ce n'est pas le cas, ça créé une nouvelle catégorie
         $category = Category::firstOrCreate([
             'name' => ucfirst($request->name),
             'slug' => Str::slug($request->name, '-'),
@@ -42,13 +45,12 @@ class CategoryController extends Controller
             return redirect(route("category.index"))->with('success', "La catégorie <strong>$request->name</strong> a bien été ajoutée.");
         }else {
             return redirect(route("category.index"))->with('warning', "La catégorie <strong>$request->name</strong> existe déjà.");
-
         }
 
     }
 
     /**
-     * Display the specified resource.
+     * Récupère les produits d'une catégorie selon le slug pour les afficher coté client
      */
     public function show(Category $category, $slug)
     {
@@ -66,7 +68,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Affiche le formulaire d'edition d'une catégorie coté administration
      */
     public function edit(Category $category)
     {
@@ -76,7 +78,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Met à jour une catégorie
+     *
+     * App\Http\Requests\CategoryRequest Class de validation du formulaire de modification d'une catégorie
      */
     public function update(CategoryRequest $request, Category $category)
     {
@@ -97,7 +101,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime un catégorie de la base de données
      */
     public function destroy(Category $category)
     {
@@ -106,6 +110,9 @@ class CategoryController extends Controller
         return redirect(route("category.index"))->with('success', "La catégorie <strong>$categoryName</strong> a bien été supprimée.");
     }
 
+    /**
+     * Supprime plusieurs catégories de la base de données
+     */
     public function multipleDelete(Request $request)
     {
         $categoriesToDelete = explode(",", $request->categoryIds);
